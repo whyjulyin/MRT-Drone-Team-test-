@@ -425,10 +425,10 @@ button,input{
   display:block
 }
 .team-grid b{
-  font-size:14px
+  font-size:18px
 }
 .team-grid span{
-  font-size:12px;
+  font-size:14px;
   color:var(--muted)
 }
 .spec-grid{
@@ -888,4 +888,345 @@ footer a{
   *{
     transition:none!important
   }
+}
+
+
+/* Mars Rover Team Logo */
+
+.team-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.team-logo:hover {
+  transform: scale(1.08);
+}
+
+@media (max-width: 600px) {
+  .team-logo {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+
+/* Drone CAD Hero Image */
+
+.drone-cad-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 350px;
+}
+
+.drone-cad-image {
+  width: 100%;
+  max-width: 650px;
+  max-height: 480px;
+  object-fit: contain;
+
+  filter: drop-shadow(0 20px 40px rgba(0, 200, 255, 0.12));
+
+  animation: droneFloat 6s ease-in-out infinite;
+}
+
+@keyframes droneFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.cad-label {
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: #94a3b8;
+}
+
+.cad-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 10px #22d3ee;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drone-cad-image {
+    animation: none;
+  }
+}
+
+
+/* ========================================= */
+/* MARS ROVER TEAM ORGANISATION CHART         */
+/* ========================================= */
+
+.org-section {
+  padding: 100px 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Section Header */
+
+.org-header {
+  text-align: center;
+  max-width: 750px;
+  margin: 0 auto 55px;
+}
+
+.org-eyebrow {
+  color: #22d3ee;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin-bottom: 15px;
+}
+
+.org-header h2 {
+  font-size: clamp(28px, 4vw, 42px);
+  color: #f8fafc;
+  margin-bottom: 18px;
+}
+
+.org-header p {
+  color: #94a3b8;
+  line-height: 1.8;
+}
+
+/* Main Team Card */
+
+.org-root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 24px 35px;
+
+  background: #111d30;
+  border: 1px solid #334155;
+  border-radius: 16px;
+}
+
+.org-root-logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.org-root h3 {
+  color: #f8fafc;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.org-root p {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+/* Chart Connector */
+
+.org-connector {
+  height: 50px;
+  width: 2px;
+  margin: 0 auto;
+  background: linear-gradient(
+    to bottom,
+    #22d3ee,
+    #334155
+  );
+}
+
+/* Subsystem Grid */
+
+.org-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+/* Individual Cards */
+
+.org-card {
+  position: relative;
+  min-width: 0;
+  padding: 28px 22px;
+  min-height: 235px;
+
+  background: #0f1b2d;
+  border: 1px solid #25364d;
+  border-radius: 14px;
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.org-card:hover {
+  transform: translateY(-7px);
+  border-color: #22d3ee;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+.org-card-icon {
+  font-size: 29px;
+  margin-bottom: 20px;
+}
+
+.org-card h3 {
+  color: #f8fafc;
+  font-size: 17px;
+  margin-bottom: 12px;
+}
+
+.org-card p {
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+/* Highlighted Drone Team */
+
+.org-card-drone {
+  border: 2px solid #f59e0b;
+  background: linear-gradient(
+    145deg,
+    #292116,
+    #111d30
+  );
+
+  box-shadow: 0 0 25px rgba(245, 158, 11, 0.08);
+}
+
+.org-card-drone:hover {
+  border-color: #fbbf24;
+  box-shadow: 0 0 35px rgba(245, 158, 11, 0.2);
+}
+
+.org-card-drone h3 {
+  color: #fbbf24;
+}
+
+.org-drone-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #fbbf24;
+}
+
+.org-drone-link {
+  display: inline-block;
+  margin-top: 20px;
+
+  color: #fbbf24;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.org-drone-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Layout */
+
+@media (max-width: 1100px) {
+  .org-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .org-section {
+    padding: 65px 20px;
+  }
+
+  .org-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .org-root {
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .org-root-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .org-root h3 {
+    font-size: 16px;
+  }
+
+  .org-card {
+    min-height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .org-card {
+    transition: none;
+  }
+}
+
+/* ========================================= */
+/* NAVIGATION BAR ALIGNMENT FIX              */
+/* ========================================= */
+
+/* Main navigation container */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Navigation links container */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+/* Individual navigation links */
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* Mars Rover Team logo */
+.team-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  display: block;
 }
