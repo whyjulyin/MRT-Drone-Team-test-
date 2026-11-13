@@ -1,9 +1,220 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#08111d"><meta name="description" content="NUS Mars Rover Team — URC 2027 Quadcopter Engineering Design"><title>ASI-402 | URC 2027 Drone</title><link rel="stylesheet" href="styles.css"></head><body>
-<div class="noise"></div><header class="topbar"><a class="brand" href="#home"><span class="brand-mark">✦</span><span>ASI<span class="accent">—</span>402 <small>/ URC 2027</small></span></a><nav id="nav"><a href="#overview">Overview</a><a href="#propulsion">Propulsion</a><a href="#communications">Comms</a><a href="#architecture">Architecture</a><a href="#testing">Testing</a><a href="#roadmap">Roadmap</a></nav><button id="menu" aria-label="Toggle navigation">☰</button></header>
-<main><section class="hero" id="home"><div class="hero-copy"><p class="eyebrow"><span class="pulse"></span> NUS MARS ROVER TEAM <span class="slash">/</span> CDE4301 CAPSTONE</p><h1>ENGINEERING<br><em>BEYOND</em> THE<br>HORIZON<span class="accent">.</span></h1><p class="lead">Designing a custom quadcopter for aerial reconnaissance and non-line-of-sight communications relay at the University Rover Challenge 2027.</p><div class="actions"><a class="btn primary" href="#overview">Explore the project ↗</a><a class="btn ghost" href="assets/interim-report.pdf" target="_blank">Read interim report ↗</a></div><p class="micro">PROJECT ASI-402 <span>•</span> INTERIM DESIGN PHASE <span>•</span> 2026–27</p></div><div class="hero-art"><div class="orb orb1"></div><div class="orb orb2"></div><div class="crosshair"></div><div class="drone"><div class="arm a1"></div><div class="arm a2"></div><div class="rotor r1"></div><div class="rotor r2"></div><div class="rotor r3"></div><div class="rotor r4"></div><div class="body-drone"><span>ASI<br>402</span></div></div><div class="art-label al1">4× ROTOR / QUADCOPTER</div><div class="art-label al2">18″ PROPELLER CLASS</div><div class="art-label al3">CONCEPT VISUALIZATION · NOT TO SCALE</div></div></section>
-<section class="metrics" aria-label="Design targets"><div><span>MAX TAKEOFF MASS</span><strong>5.0 <small>kg</small></strong><i>Competition limit</i></div><div><span>HOVER ENDURANCE</span><strong>20 <small>min</small></strong><i>Minimum design target</i></div><div><span>RECONNAISSANCE RADIUS</span><strong>2.0 <small>km</small></strong><i>Design objective</i></div><div><span>RELAY COVERAGE</span><strong>1.0 <small>km</small></strong><i>Operational radius target</i></div></section>
-<section class="section" id="overview"><div class="section-heading"><p class="eyebrow">01 / MISSION BRIEF</p><h2>WHY BUILD <span class="accent">THIS DRONE?</span></h2><p>The rover can encounter terrain obstructions and disrupted line-of-sight communications. Our quadcopter is designed to act as an elevated relay and aerial observer.</p></div><div class="two-col"><article class="panel"><h3>Mission objectives</h3><div class="feature"><b>01</b><div><h4>Airborne RF relay</h4><p>Bridge the base station and rover across terrain obstructions while hovering at a proposed 60 m AGL.</p></div></div><div class="feature"><b>02</b><div><h4>Aerial reconnaissance</h4><p>Scout driving routes, locate mission equipment and support elevated ArUco marker identification.</p></div></div><div class="feature"><b>03</b><div><h4>Endurance under constraints</h4><p>Balance flight time with the 5 kg mass cap and a mandatory dummy payload equal to battery mass.</p></div></div></article><article class="panel constraints"><h3>Design constraints</h3><div class="constraint"><span>Dummy mass</span><b>1:1 battery mass</b></div><div class="constraint"><span>Maximum altitude</span><b>120 m AGL</b></div><div class="constraint"><span>Maximum mass</span><b>5.0 kg</b></div><div class="constraint"><span>Recommended wind tolerance</span><b>48 km/h</b></div><div class="constraint"><span>Minimum top speed target</span><b>36 km/h</b></div><p class="note">Values reflect the interim draft and should be checked against the latest official competition rules.</p></article></div><div class="team"><p class="eyebrow">PROJECT TEAM</p><div class="team-grid"><div><b>Julian Cheah</b><span>Team Lead · Communications</span></div><div><b>Joel Jesukumar William</b><span>Electrical · Power Distribution</span></div><div><b>Benedict Lim</b><span>Propulsion · Endurance</span></div><div><b>Looi Zi Hann</b><span>Mechanical · Frame</span></div></div></div></section>
-<section class="section dark-section" id="propulsion"><div class="section-heading"><p class="eyebrow">02 / PROPULSION & ENERGY</p><h2>BUILT FOR <span class="accent">ENDURANCE.</span></h2><p>Preliminary component selection uses manufacturer test data and iterative mass and power budgeting. Figures are estimates pending bench verification.</p></div><div class="spec-grid"><article class="spec"><span>SELECTED MOTOR</span><h3>MAD 5008 EEE</h3><p>340 KV · 127 g each</p></article><article class="spec"><span>PROPELLER</span><h3>18 × 6.1″</h3><p>FLUXER PRO · 4 rotors</p></article><article class="spec"><span>BATTERY</span><h3>6S / 16 Ah</h3><p>MAD lithium-ion · 355.2 Wh</p></article><article class="spec"><span>HOVER THRUST</span><h3>1,250 gf</h3><p>Per motor at 5 kg MTOW</p></article></div><div class="two-col"><article class="panel"><div class="panel-top"><h3>Motor comparison</h3><span class="chip">MANUFACTURER DATA</span></div><div class="bars"><div><label>MAD 5008 EEE <b>124.9 W</b></label><div class="bar-track"><div class="bar cyan" style="width:89.9%"></div></div></div><div><label>T-Motor MN501-S <b>139.0 W</b></label><div class="bar-track"><div class="bar muted" style="width:100%"></div></div></div></div><p class="note">Estimated electrical input power per motor at 1,250 gf. Manufacturer test setups differ.</p></article><article class="panel"><h3>Battery mass trade-off</h3><p class="small">Explore the competition rule: battery mass adds an equal dummy payload mass. This calculator illustrates the mass budget, not a validated endurance prediction.</p><label class="slider-label" for="battery">Battery mass <strong id="battery-val">1.24 kg</strong></label><input type="range" id="battery" min="0.6" max="1.8" step="0.02" value="1.24"><div class="readouts"><div><span>BATTERY + DUMMY</span><strong id="paired">2.48 kg</strong></div><div><span>REMAINING MASS AT 5 KG</span><strong id="remaining">2.52 kg</strong></div></div><p class="note">Remaining mass is for all other components; selected 1.24 kg battery is from the draft.</p></article></div></section>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="theme-color" content="#08111d">
+        <meta name="description" content="NUS Mars Rover Team — URC 2027 Quadcopter Engineering Design">
+        <title>ASI-402 | URC 2027 Drone</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+<div class="noise"></div>
+<header class="topbar">
+    <a class="brand" href="#home">
+        <span class="brand-mark">✦</span>
+        <span>ASI<span class="accent">—</span>
+        402 <small>/ URC 2027</small></span>
+    </a>
+    <nav id="nav">
+        <a href="#overview">Overview</a>
+        <a href="#organisation">Organisation</a>
+        <a href="#propulsion">Propulsion</a>
+        <a href="#communications">Comms</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#testing">Testing</a>
+        <a href="#roadmap">Roadmap</a>
+        <img
+        src="assets/TEAM LOGO TRANSPARENT (smaller).png"
+        alt="NUS Mars Rover Team Logo"
+        class="team-logo"/>
+    </nav><button id="menu" aria-label="Toggle navigation">☰</button>
+</header>
+<main>
+    <section class="hero" id="home">
+
+        <!-- Drone CAD Render -->
+        <div class="drone-cad-container">
+        <img
+            src="assets/drone-cad.png"
+            alt="URC 2027 Quadcopter CAD Model"
+            class="drone-cad-image"
+        />
+
+        <div class="cad-label">
+            <span class="cad-status-dot"></span>
+            PRELIMINARY CAD MODEL
+        </div>
+        </div>
+
+            </section>
+<section class="metrics" aria-label="Design targets">
+    <div><span>MAX TAKEOFF MASS</span><strong>5.0 <small>kg</small></strong><i>Competition limit</i></div>
+    <div><span>HOVER ENDURANCE</span><strong>20 <small>min</small></strong><i>Minimum design target</i></div>
+    <div><span>RECONNAISSANCE RADIUS</span><strong>2.0 <small>km</small></strong><i>Design objective</i></div>
+    <div><span>RELAY COVERAGE</span><strong>1.0 <small>km</small></strong><i>Operational radius target</i></div>
+</section>
+<section class="section" id="overview">
+    <div class="section-heading"><p class="eyebrow">01 / MISSION BRIEF</p>
+        <h2>WHY BUILD <span class="accent">THIS DRONE?</span></h2>
+        <p>The rover can encounter terrain obstructions and disrupted line-of-sight communications. Our quadcopter is designed to act as an elevated relay and aerial observer.</p></div>
+        <div class="two-col"><article class="panel"><h3>Mission objectives</h3>
+            <div class="feature"><b>01</b>
+                <div><h4>Airborne RF relay</h4><p>Bridge the base station and rover across terrain obstructions while hovering at a proposed 60 m AGL.</p></div></div>
+                <div class="feature"><b>02</b>
+                    <div><h4>Aerial reconnaissance</h4><p>Scout driving routes, locate mission equipment and support elevated ArUco marker identification.</p></div></div>
+                    <div class="feature"><b>03</b>
+                        <div><h4>Endurance under constraints</h4><p>Balance flight time with the 5 kg mass cap and a mandatory dummy payload equal to battery mass.</p></div></div></article>
+                        <article class="panel constraints"><h3>Design constraints</h3>
+                            <div class="constraint"><span>Dummy mass</span><b>1:1 battery mass</b></div>
+                            <div class="constraint"><span>Maximum altitude</span><b>120 m AGL</b></div>
+                            <div class="constraint"><span>Maximum mass</span><b>5.0 kg</b></div>
+                            <div class="constraint"><span>Recommended wind tolerance</span><b>48 km/h</b></div>
+                            <div class="constraint"><span>Minimum top speed target</span><b>36 km/h</b></div>
+                            <p class="note">Values reflect the interim draft and should be checked against the latest official competition rules.</p></article></div>
+                            
+
+
+<!-- ========================================= -->
+<!-- MARS ROVER TEAM ORGANISATION CHART         -->
+<!-- ========================================= -->
+
+<section id="organisation" class="org-section">
+  <div class="org-header">
+    <p class="org-eyebrow">TEAM STRUCTURE</p>
+    <h2>NUS Mars Rover Team</h2>
+    <p>
+      Eight specialised subsystems working together
+      to design, develop and operate a Mars exploration
+      rover for the University Rover Challenge 2027.
+    </p>
+  </div>
+  <!-- Main Team -->
+  <div class="org-root">
+    <img
+      src="assets/mars-rover-logo.png"
+      alt="Mars Rover Team Logo"
+      class="org-root-logo"
+    />
+    <div>
+      <h3>NUS Mars Rover Team</h3>
+      <p>University Rover Challenge 2027</p>
+    </div>
+  </div>
+  <!-- Organisation Chart Connections -->
+  <div class="org-connector"></div>
+  <!-- Subsystem Cards -->
+  <div class="org-grid">
+    <div class="org-card">
+      <div class="org-card-icon">⚡</div>
+      <h3>Chassis Electrical</h3>
+      <p>
+        In charge of all electrical systems
+        onboard the rover.
+      </p>
+    </div>
+    <div class="org-card">
+      <div class="org-card-icon">⚙️</div>
+      <h3>Chassis Mechanical</h3>
+      <p>
+        Handles mechanical chassis design
+        and fabrication of mechanical parts
+        for other subsystems.
+      </p>
+    </div>
+    <div class="org-card">
+      <div class="org-card-icon">🧭</div>
+      <h3>Auto-Navigation</h3>
+      <p>
+        Develops autonomous navigation
+        algorithms and tunes rover movement
+        through the competition course.
+      </p>
+    </div>
+    <div class="org-card">
+      <div class="org-card-icon">🦾</div>
+      <h3>Arm</h3>
+      <p>
+        Designs the main manipulator
+        and end-effector for the rover.
+      </p>
+    </div>
+    <div class="org-card">
+      <div class="org-card-icon">🔬</div>
+      <h3>Astrobiology</h3>
+      <p>
+        Designs the soil sampling mechanism
+        and conducts sample testing
+        for the science mission.
+      </p>
+    </div>
+    <div class="org-card">
+      <div class="org-card-icon">📡</div>
+      <h3>GNSS-Comms</h3>
+      <p>
+        Manages communication systems,
+        antennas, radio links and GPS
+        positioning for the rover,
+        drone and base station.
+      </p>
+    </div>
+    <div class="org-card">
+      <div class="org-card-icon">🖥️</div>
+      <h3>Command & Control (C2)</h3>
+      <p>
+        Manages base station logistics
+        and mission planning.
+      </p>
+    </div>
+    <!-- Highlighted Drone Subsystem -->
+    <div class="org-card org-card-drone">
+      <div class="org-drone-badge">
+        OUR SUBSYSTEM
+      </div>
+      <div class="org-card-icon">🚁</div>
+      <h3>Drone Team</h3>
+      <p>
+        Designs and develops a custom
+        quadcopter to support rover
+        missions through aerial reconnaissance
+        and communication relay.
+      </p>
+      <a href="#propulsion" class="org-drone-link">
+        Explore Drone Design →
+      </a>
+    </div>
+  </div>
+  <div class="team"><p class="eyebrow">PROJECT TEAM</p>
+                                <div class="team-grid"><div><b>Julian Cheah</b><span>Team Lead · Communications</span></div>
+                                <div><b>Joel Jesukumar William</b><span>Electrical · Power Distribution</span></div>
+                                <div><b>Benedict Lim</b><span>Propulsion · Endurance</span></div>
+                                <div><b>Looi Zi Hann</b><span>Mechanical · Frame</span></div></div></div></section>
+</section>
+
+<section class="section dark-section" id="propulsion">
+    <div class="section-heading"><p class="eyebrow">02 / PROPULSION & ENERGY</p>
+        <h2>BUILT FOR <span class="accent">ENDURANCE.</span></h2>
+        <p>Preliminary component selection uses manufacturer test data and iterative mass and power budgeting. Figures are estimates pending bench verification.</p></div>
+        <div class="spec-grid"><article class="spec"><span>SELECTED MOTOR</span>
+            <h3>MAD 5008 EEE</h3><p>340 KV · 127 g each</p></article>
+            <article class="spec"><span>PROPELLER</span><h3>18 × 6.1″</h3><p>FLUXER PRO · 4 rotors</p></article>
+            <article class="spec"><span>BATTERY</span><h3>6S / 16 Ah</h3><p>MAD lithium-ion · 355.2 Wh</p></article>
+            <article class="spec"><span>HOVER THRUST</span><h3>1,250 gf</h3><p>Per motor at 5 kg MTOW</p></article></div>
+            <div class="two-col"><article class="panel">
+                <div class="panel-top"><h3>Motor comparison</h3><span class="chip">MANUFACTURER DATA</span></div>
+                <div class="bars">
+                    <div><label>MAD 5008 EEE <b>124.9 W</b></label>
+                        <div class="bar-track"><div class="bar cyan" style="width:89.9%"></div></div></div>
+                        <div><label>T-Motor MN501-S <b>139.0 W</b></label>
+                            <div class="bar-track">
+                                <div class="bar muted" style="width:100%"></div></div></div></div>
+                                <p class="note">Estimated electrical input power per motor at 1,250 gf. Manufacturer test setups differ.</p></article>
+                    <article class="panel"><h3>Battery mass trade-off</h3><p class="small">Explore the competition rule: battery mass adds an equal dummy payload mass. This calculator illustrates the mass budget, not a validated endurance prediction.</p>
+                        <label class="slider-label" for="battery">Battery mass <strong id="battery-val">1.24 kg</strong></label>
+                        <input type="range" id="battery" min="0.6" max="1.8" step="0.02" value="1.24">
+                        <div class="readouts"><div><span>BATTERY + DUMMY</span><strong id="paired">2.48 kg</strong></div>
+                        <div><span>REMAINING MASS AT 5 KG</span><strong id="remaining">2.52 kg</strong></div></div>
+                        <p class="note">Remaining mass is for all other components; selected 1.24 kg battery is from the draft.</p></article></div></section>
 <section class="section" id="communications"><div class="section-heading"><p class="eyebrow">03 / COMMUNICATIONS</p><h2>STAY <span class="accent">CONNECTED.</span></h2><p>Three independently designed links support flight control, FPV video and rover telemetry. Switch between them to inspect the architecture and theoretical free-space link margin.</p></div><div class="tabs" role="tablist"><button class="tab active" data-link="rc">RC Control · 2.4 GHz</button><button class="tab" data-link="fpv">FPV Video · 5.8 GHz</button><button class="tab" data-link="relay">Rover Relay · 2.4 GHz</button></div><div class="two-col comms"><article class="panel"><p class="eyebrow" id="link-type">RADIO CONTROL</p><h3 id="link-name">TX16S MK3 → DBR4</h3><p id="link-description">ExpressLRS radio control between pilot and drone receiver.</p><div class="readouts stacked"><div><span>FREQUENCY</span><strong id="frequency">2,400 MHz</strong></div><div><span>TX POWER</span><strong id="txpower">30 dBm</strong></div><div><span>RECEIVER SENSITIVITY*</span><strong id="sensitivity">−105 dBm</strong></div></div><p class="note">*Receiver sensitivity and some other inputs are preliminary assumptions from the draft, not verified equipment specifications.</p></article><article class="panel"><div class="panel-top"><h3>Interactive link budget</h3><span class="chip">IDEAL LOS MODEL</span></div><label class="slider-label" for="distance">Range <strong id="distance-val">1.20 km</strong></label><input type="range" id="distance" min="0.1" max="5" step="0.05" value="1.2"><div class="big-number"><span>ESTIMATED LINK MARGIN</span><strong id="margin">—</strong><span id="margin-status" class="status">Calculating</span></div><svg id="link-chart" viewBox="0 0 520 190" role="img" aria-label="Theoretical link margin versus range"><line x1="45" y1="18" x2="45" y2="160" stroke="#425366"/><line x1="45" y1="160" x2="510" y2="160" stroke="#425366"/><line id="threshold" x1="45" y1="0" x2="510" y2="0" stroke="#f8bd69" stroke-dasharray="6 5"/><path id="curve" fill="none" stroke="#53d7dc" stroke-width="3"/><line id="marker" x1="0" y1="18" x2="0" y2="160" stroke="#fff" stroke-dasharray="3 4"/><text x="47" y="181" fill="#8fa1b7" font-size="12">0.1 km</text><text x="460" y="181" fill="#8fa1b7" font-size="12">5 km</text><text id="threshold-label" x="350" y="25" fill="#f8bd69" font-size="11">20 dB threshold</text></svg><p class="note">Free-space model: FSPL = 32.44 + 20 log₁₀(f MHz) + 20 log₁₀(d km). Excludes terrain, fading and interference; no field range is guaranteed.</p></article></div><div class="panel diagram"><h3>Signal architecture</h3><div class="nodes"><div class="node">BASE STATION<small>TX16S · Goggles X · Rocket M2</small></div><div class="wire"><span>2.4 / 5.8 GHz</span><i></i></div><div class="node highlight">AIRBORNE DRONE<small>DBR4 · GT2 · GL-AR300M-Ext</small></div><div class="wire"><span>2.4 GHz relay</span><i></i></div><div class="node">GROUND ROVER<small>Rover radio / telemetry</small></div></div><p class="note">Conceptual signal flow. The RC/FPV links terminate at the drone; rover telemetry is a separate relay path.</p></div></section>
 <section class="section dark-section" id="architecture"><div class="section-heading"><p class="eyebrow">04 / SYSTEM ARCHITECTURE</p><h2>INSIDE THE <span class="accent">AIRFRAME.</span></h2><p>Core subsystems and their interfaces, based on the interim wiring architecture.</p></div><div class="arch-grid"><article class="arch-card"><span class="arch-num">01</span><h3>Power distribution</h3><p>6S battery → PM08-CAN → ESC and regulated 5.3 V / 12 V electronics supplies.</p><div class="tags"><span>PM08-CAN</span><span>Matek BEC</span></div></article><article class="arch-card"><span class="arch-num">02</span><h3>Flight control</h3><p>Pixhawk 6X runs ArduPilot, processes pilot commands and sensors, and issues motor control signals.</p><div class="tags"><span>Pixhawk 6X</span><span>ArduPilot</span></div></article><article class="arch-card"><span class="arch-num">03</span><h3>Propulsion</h3><p>Tekko32 4-in-1 ESC controls four independent motor channels via DShot300 commands.</p><div class="tags"><span>Tekko32</span><span>DShot300</span></div></article><article class="arch-card"><span class="arch-num">04</span><h3>Video & gimbal</h3><p>Walksnail GT2 transmits camera video and interfaces with Pixhawk OSD and GM3 gimbal control.</p><div class="tags"><span>GT2</span><span>GM3</span></div></article></div><div class="panel"><h3>Key engineering challenges</h3><div class="challenge-grid"><div><span>01 / CABLE LOSSES</span><h4>Operating from an enclosed base station</h4><p>A proposed 20 m LMR400 antenna extension introduces estimated RF losses of 4.36 dB at 2.4 GHz or 2.56 dB at 900 MHz, before connector effects.</p></div><div><span>02 / DATASHEET UNCERTAINTY</span><h4>Designing before physical validation</h4><p>Motor performance, battery mass and electronics efficiency are initially based on manufacturer data; conservative margins and staged testing reduce uncertainty.</p></div></div></div></section>
 <section class="section" id="testing"><div class="section-heading"><p class="eyebrow">05 / VALIDATION</p><h2>TEST. LEARN. <span class="accent">ITERATE.</span></h2><p>Clearly distinguish completed preliminary checks from work still awaiting experimental verification.</p></div><div class="test-grid"><article class="test-card"><span class="pill done">● INITIAL CONNECTIVITY VERIFIED</span><h3>2.4 GHz repeater module</h3><p>GL-AR300M-Ext and Rocket M2 were connected in router and extender configurations after IP reconfiguration.</p><div class="test-data"><strong>4 / 4</strong><span>ping packets transmitted<br>2–30 ms observed response</span></div><p class="note">Short-range connectivity only. Long-range, throughput and end-to-end relay tests remain outstanding.</p></article><article class="test-card"><span class="pill pending">○ VALIDATION PENDING</span><h3>Motor thrust verification</h3><p>Bench testing will compare thrust and electrical input power against manufacturer data at representative operating points.</p></article><article class="test-card"><span class="pill pending">○ VALIDATION PENDING</span><h3>Battery verification</h3><p>Verify measured battery mass, discharge behavior and usable capacity under representative loads.</p></article><article class="test-card"><span class="pill pending">○ DESIGN IN PROGRESS</span><h3>Mechanical integration</h3><p>Preliminary CAD layout is complete; final component mounting, propeller clearance, CG and structural testing remain.</p></article></div></section>
