@@ -1,584 +1,226 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="ASI-402 NUS Mars Rover Team quadcopter interim engineering report"><title>ASI-402 | Interim Engineering Report</title><link rel="stylesheet" href="styles.css"></head><body><header class="topbar"><a class="brand" href="#top"><img src="assets/mars-rover-logo.png" alt="NUS Mars Rover Team"><span>ASI—402 <small>URC 2027 / INTERIM REPORT</small></span></a><div class="top-actions"><button id="font-down" aria-label="Decrease text size">A−</button><button id="font-up" aria-label="Increase text size">A+</button><a class="download" href="assets/Interim-Report.pdf" download>Original PDF ↓</a></div></header><div class="layout"><aside class="sidebar" id="sidebar"><div class="side-label">CONTENTS</div><input id="toc-search" type="search" placeholder="Filter sections…" aria-label="Filter table of contents"><nav id="toc"><a href="#front">Front Matter</a><a href="#introduction">1. Introduction</a><a href="#literature">2. Literature Review</a><a href="#technical">3. Technical Design</a><a href="#testing">4. Preliminary Testing</a><a href="#timeline">5. Project Timeline</a><a href="#risks">6. Risk Analysis</a><a href="#summary">7. Summary</a><a href="#references">References</a><div class="subnav"><a href="#acknowledgements">Acknowledgements</a><a href="#executive-summary">Executive Summary</a><a href="#abbreviations">Abbreviations</a></div></nav><div class="sidebar-foot">Based on uploaded interim report · 33 pages<br>Text preserved where extractable; open original pages for exact formatting.</div></aside><main id="top"><div class="hero"><div class="eyebrow">NATIONAL UNIVERSITY OF SINGAPORE · CDE4301</div><h1>Custom Quadcopter for <em>Aerial Reconnaissance</em> & Communications Relay</h1><p>Interim engineering report for the NUS Mars Rover Team's University Rover Challenge 2027 project. An academic, navigable presentation of the original report.</p><div class="hero-meta"><span>ASI-402</span><span>URC 2027</span><span>33-page source</span><span>Interim design stage</span></div><a class="jump" href="#front">Read report ↓</a></div><div class="reader-note"><strong>How to use this website</strong><p>Read the searchable, reflowed report below. Select <b>View original page</b> for exact diagrams, equations, figures, tables and layout from the PDF. Draft sections are marked explicitly.</p></div><section class="chapter" id="front"><div class="chapter-kicker">ASI-402 / INTERIM REPORT</div><h2>Front Matter</h2>
-<div class="front-card"><img src="assets/mars-rover-logo.png" alt="NUS Mars Rover Team logo"><div><span class="eyebrow">CDE4301 INNOVATION & DESIGN CAPSTONE</span><h3>Design of a Custom Quadcopter for Aerial Reconnaissance and non-line-of-sight communications relay in the University Rover Challenge 2027</h3><p>Project ASI-402 · Supervisor: Mr Eugene Ee</p><p>Julian Cheah Ming Feng · Joel Jesukumar William · Benedict Lim Wei Chen · Looi Zi Hann</p></div></div>
-<h3 id="acknowledgements">Acknowledgements</h3><div class="draft-note">This section contains placeholder text in the uploaded interim report. Add the final acknowledgements here.</div><h3 id="executive-summary">Executive Summary</h3><div class="draft-note">This section contains placeholder text in the uploaded interim report. Add the final executive summary here.</div><h3 id="abbreviations">List of Abbreviations</h3><p>The original list is currently blank. The following is an editable working glossary of terms appearing in the report, not a transcription of a completed report table.</p><table class="glossary"><thead><tr><th>Abbreviation</th><th>Meaning</th></tr></thead><tbody>
-<tr><td>AGL</td><td>Above Ground Level</td></tr>
-<tr><td>CAN</td><td>Controller Area Network</td></tr>
-<tr><td>CG</td><td>Centre of Gravity</td></tr>
-<tr><td>ESC</td><td>Electronic Speed Controller</td></tr>
-<tr><td>FPV</td><td>First Person View</td></tr>
-<tr><td>FSPL</td><td>Free-Space Path Loss</td></tr>
-<tr><td>GNSS</td><td>Global Navigation Satellite System</td></tr>
-<tr><td>MTOW</td><td>Maximum Take-Off Weight</td></tr>
-<tr><td>NVLOS</td><td>Non-Visual Line of Sight (terminology as used in report)</td></tr>
-<tr><td>RC</td><td>Remote Control</td></tr>
-<tr><td>RF</td><td>Radio Frequency</td></tr>
-<tr><td>URC</td><td>University Rover Challenge</td></tr>
-<tr><td>VTX</td><td>Video Transmitter</td></tr>
-</tbody></table>
-<details class="original-front"><summary>View original cover and front-matter pages</summary><div class="front-scans"><img loading="lazy" src="assets/pages/page-01.webp" alt="Original report page 1"><img loading="lazy" src="assets/pages/page-02.webp" alt="Original report page 2"><img loading="lazy" src="assets/pages/page-03.webp" alt="Original report page 3"><img loading="lazy" src="assets/pages/page-04.webp" alt="Original report page 4"><img loading="lazy" src="assets/pages/page-05.webp" alt="Original report page 5"></div></details></section><section class="chapter" id="introduction"><div class="chapter-kicker">ASI-402 / INTERIM REPORT</div><h2>1. Introduction</h2>
-<article class="report-page" id="page-6"><div class="page-head"><span>REPORT PAGE 06 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-6">View original page ↗</button></div><div class="page-text"><p>1. Introduction</p>
-<p>The University Rover Challenge (URC) is a robotics competition for university students, organized annually by the Mars Society near the Mars Desert Research Station (MDRS) in the desert of southern Utah, United States. The competition tasks student teams with designing and building next-generation Mars exploration rovers capable of executing field missions that simulate real planetary surface operations.</p>
-<p>Field performance is evaluated across 4 distinct missions—Delivery, Autonomy, Equipment Servicing, and Astrobiology—each worth 100 points for a maximum achievable score of 400 mission points, though the drone can only be utilized for the Delivery and Autonomy missions. The Delivery Mission requires rovers to retrieve and deliver objects weighing up to 5 kg across challenging terrain over distances up to 1 km. The Autonomy Mission demands full autonomous navigation through waypoints as well as astronaut assistance and tool retrieval tasks without any human teleoperation.  Overall team standings combine field mission points with engineering evaluations from the System Acceptance Review (SAR), which is submitted prior to the field competition.</p>
-<h3>1.1 Project Overview &amp; Problem Statement</h3>
-<p>For this competition, our rover is expected to traverse undulating terrain at an estimated distance of up to 2 km. This introduces the risk of communication loss between the rover and our base station due to signal attenuation over long ranges and obstructed line-of-sight due to natural obstacles. As such, the aerial drone subsystem is deployed specifically during the Delivery Mission and Autonomy Mission to support ground operations. Serving as a Non-Line-of-Sight (NVLOS) RF relay operating at an elevated hover altitude of 60 m AGL, the drone acts as an airborne repeater bridging primary telemetry and video links between the Command and Control base station and the ground rover when line-of-sight is severed by canyon walls and terrain ridges. Additionally, the drone provides aerial reconnaissance by scouting ahead of the ground rover to identify optimal driving paths, locate scattered mission equipment, and detect elevated ArUco markers beyond the field of view of ground-level cameras.</p></div><div class="page-scan" id="scan-6" hidden><img loading="lazy" src="assets/pages/page-06.webp" alt="Original interim report page 6"></div></article>
-<article class="report-page" id="page-7"><div class="page-head"><span>REPORT PAGE 07 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-7">View original page ↗</button></div><div class="page-text"><p>Figure 1: Elevated drone communication relay bypassing terrain obstructions to maintain an uninterrupted 2.4 GHz link between the base station and rover.</p>
-<p>A flat quadcopter layout with fixed-pitch propellers was selected over complex coaxial or hexacopter platforms. This design minimizes dry structural weight, eliminates mechanical singlepoint failure modes in fine desert dust, and delivers high hover aerodynamic efficiency under strict competition mass rules.</p>
-<h3>1.2 URC2027 Competition Missions &amp; Restrictions</h3>
-<p>To simulate flight performance under lower atmospheric density, the drone must always carry a non-functional dummy mass equal to its battery weight. The total weight is capped at 5.0 kg, which includes both the dummy payload and a FAA Remote ID module around 20g. Operating altitude is restricted to a maximum of 120 m above ground level in compliance with FAA regulations.</p>
-<p>Environmental conditions at the Mars Desert Research Station feature summer temperatures reaching up to 46 degrees Celsius based on historical climate data, placing severe thermal management demands on onboard electronics. Operational wind guidelines strongly recommend that the platform withstand sustained desert winds of 48 km/h, requiring a minimum top speed of 36 km/h when carrying the dummy payload. The entire competition spans a 1-mile square near the Mars Desert Research Centre.</p>
-<h3>1.3 Mars Rover Team</h3>
-<p>Below is the breakdown of the entire Mars rover team and its subsystem.</p>
-<p>Subsystem Primary Responsibilities</p>
-<pre class="report-table">Drone
-Designing of a quadcopter to assist the rover in Deliver and Autonomy
-missions.</pre></div><div class="page-scan" id="scan-7" hidden><img loading="lazy" src="assets/pages/page-07.webp" alt="Original interim report page 7"></div></article>
-<article class="report-page" id="page-8"><div class="page-head"><span>REPORT PAGE 08 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-8">View original page ↗</button></div><div class="page-text"><p>GNSSComms</p>
-<p>In charge of all communication systems from antennas, radio links, and GPS positioning for the rover, drone, and base station.</p>
-<pre class="report-table">Command &amp;
-Control (C2)
-In charge of base station logistics and mission planning.</pre>
-<p>Astrobiology In charge of design for soil sampling mechanism and sample testing for the science mission.</p>
-<p>Arm Design of the main manipulator and end-effector for the rover.</p>
-<p>AutoNavigation</p>
-<p>Handles the autonomous navigation algorithms and tuning of rover movement through the competition course.</p>
-<p>Chassis Mechanical</p>
-<p>Handles mechanical chassis design and fabrication of mechanical parts for other subsystems.</p>
-<pre class="report-table">Chassis
-Electrical
-In charge of all electrical systems onboard the rover.</pre>
-<h3>1.4 Team Workload Breakdown</h3>
-<p>Subsystem responsibilities are divided among four team members based on our experiences and specializations.</p>
-<pre class="report-table">Team
-Member
-Role
-Primary Responsibilities</pre>
-<p>Julian</p>
-<p>Communications equipment selection and Non-Line-ofSight (NVLOS) RF relay architecture</p>
-<pre class="report-table">Team Lead,
-Communications
-lead</pre>
-<pre class="report-table">Joel
-Electrical and
-Power Lead
-Electrical hardware and power distribution</pre>
-<p>Benedict Propulsion Lead</p>
-<pre class="report-table">Propulsion system sizing, motor-propeller thrust matching
-calculations, and hover aerodynamic efficiency
-optimization</pre>
-<pre class="report-table">Zi Hann
-Mechanical and
-Structures Lead
-Mechanical structures and structural carbon fiber layout</pre></div><div class="page-scan" id="scan-8" hidden><img loading="lazy" src="assets/pages/page-08.webp" alt="Original interim report page 8"></div></article>
-<article class="report-page" id="page-9"><div class="page-head"><span>REPORT PAGE 09 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-9">View original page ↗</button></div><div class="page-text"><h3>1.5 Overall Design Objective</h3>
-<p>The principal objective of the drone subsystem is to deliver a robust aerial asset tailored specifically to URC mission constraints. The platform is engineered to achieve a sustained hover endurance of at least 20 minutes at 5.0 kg MTOW while carrying the 1:1 dummy mass. It targets an operational visual reconnaissance radius of 2 km and maintains uninterrupted RF signal relay coverage over a 1 km operating radius. By carrying an airborne repeater module, the drone bridges telemetry and video feeds between the ground rover and base station while transmitting HD video streams for real-time terrain mapping and elevated ArUco marker identification.</p></div><div class="page-scan" id="scan-9" hidden><img loading="lazy" src="assets/pages/page-09.webp" alt="Original interim report page 9"></div></article>
-</section><section class="chapter" id="literature"><div class="chapter-kicker">ASI-402 / INTERIM REPORT</div><h2>2. Literature Review</h2>
-<article class="report-page" id="page-10"><div class="page-head"><span>REPORT PAGE 10 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-10">View original page ↗</button></div><div class="page-text"><p>2. Literature Review</p>
-<p>The team&#x27;s predecessor platform suffered from structural, electrical, and scaling bottlenecks. The baseline platform utilized a 580 mm wheelbase frame equipped with standard 4008 motors, 15inch folding propellers, and a 6S 10,000 mAh Li-Ion pack flying at a total weight of 2,654 g. Combined four-motor thrust testing revealed a 27.1% thrust deficit between isolated bench tests (1,900 g per motor) and full system integration (1,385 g per motor). Analytical decomposition confirmed that battery voltage sag under a 39.7A load accounted for 20.8% of this reduction, while turbulent inter-motor propeller wash interference on the compact frame accounted for the remaining 7.9%.</p>
-<p>The redesigned platform addresses these empirical loss mechanisms by optimizing mass distribution, expanding frame geometry to an 800 mm carbon fiber wheelbase to eliminate rotor wash overlap, and utilizing short 10 AWG silicone power leads with anti-spark XT90-S interconnects to minimize internal resistance losses. Avionics integration was upgraded to Bidirectional DShot telemetry with dynamic PID notch filtering, suppressing mechanical frame resonance and reducing motor waste heat by around 15 degrees Celsius in ambient desert conditions.</p></div><div class="page-scan" id="scan-10" hidden><img loading="lazy" src="assets/pages/page-10.webp" alt="Original interim report page 10"></div></article>
-</section><section class="chapter" id="technical"><div class="chapter-kicker">ASI-402 / INTERIM REPORT</div><h2>3. Technical Design</h2>
-<article class="report-page" id="page-11"><div class="page-head"><span>REPORT PAGE 11 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-11">View original page ↗</button></div><div class="page-text"><p>3. Technical Design</p>
-<h3>3.1 Propulsion System</h3>
-<h3>3.1.1 Design Requirements and Methodology</h3>
-<p>The quadcopter is designed for communication relay and terrain surveying, with a maximum take-off mass (MTOW) of 5 kg. Based on these requirements, preliminary propulsion sizing was conducted to estimate the required motor thrust and propeller diameter, followed by the selection and comparison of motor–propeller combinations alongside the airframe design. A mass budget was then developed using the estimated component masses to determine the allowable battery mass.</p>
-<p>The design follows an iterative approach, integrating propulsion sizing, mass budgeting, battery selection, and mechanical integration. Changes in component or battery mass affect the total aircraft mass, required thrust, power consumption, and predicted endurance. Finally, a battery mass sensitivity analysis and endurance optimisation were performed to estimate flight time and select a suitable configuration while satisfying the 5 kg MTOW constraint.</p>
-<h3>3.1.2 Preliminary Propulsion Sizing</h3>
-<p>Hover and Maximum Thrust Requirement</p>
-<p>At the maximum take-off mass (MTOW) of 5 kg, each of the four motors must provide 5,000/4 = 1,250 gf of hover thrust (approximately 12.26 N). A preliminary design thrust-to-weight ratio of 2.0 gives a target maximum available thrust of at least 2,500 gf per motor. This reserve supports climb and manoeuvring capability, although actual wind tolerance also depends on control authority and battery-limited thrust.</p>
-<p>Disk Loading and Propeller Diameter</p>
-<p>𝑊</p>
-<p>Disk loading is defined as the aircraft weight divided by the total rotor disk area: 𝐷𝐿=</p>
-<p>𝐴𝑡𝑜𝑡𝑎𝑙,</p>
-<p>𝐷2</p>
-<p>4𝑚𝑔</p>
-<p>where W = mg. For N equal rotors, 𝐴𝑡𝑜𝑡𝑎𝑙=  𝑁⋅𝜋⋅</p>
-<p>𝑁⋅𝜋⋅𝐷𝐿. A relatively low</p>
-<p>4  and𝐷= √</p>
-<p>preliminary disk loading of 75 N/m² was adopted for this endurance-oriented quadcopter. Lower disk loading generally reduces ideal induced hover power, but requires larger propellers and consequently a larger airframe, which may increase structural mass and expose more area to wind. Conversely, higher disk loading permits a more compact airframe but increases ideal induced power. Therefore, 75 N/m² was selected as a practical compromise between hover efficiency and airframe size. At 5 kg, the required total disk area is approximately 0.654 m², corresponding to an 18-inch propeller diameter.</p></div><div class="page-scan" id="scan-11" hidden><img loading="lazy" src="assets/pages/page-11.webp" alt="Original interim report page 11"></div></article>
-<article class="report-page" id="page-12"><div class="page-head"><span>REPORT PAGE 12 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-12">View original page ↗</button></div><div class="page-text"><pre class="report-table">Disk loading
-Diameter at 5 kg
-Design implication</pre>
-<pre class="report-table">50 N/m2
-22.0 in
-Lower ideal induced power,
-but larger propellers/frame;
-potentially greater wind-
-exposed area
-75 N/m2
-18.0 in
-Balanced preliminary choice
-for hover efficiency and
-practical frame size
-100 N/m2
-15.6 in
-Smaller frame, but higher
-ideal induced power; less
-favourable for endurance</pre>
-<p>The selected disk loading serves only as an initial sizing guideline. The actual motor–propeller combination was subsequently evaluated using manufacturer performance test data, including hover power, thrust efficiency and maximum tested thrust.</p>
-<h3>3.1.3 Motor and Propeller Selection</h3>
-<p>Comparison of Shortlisted Motor–Propeller Combinations Based on the preliminary propulsion sizing, multiple motor–propeller combinations were shortlisted, with the two most promising candidates presented for further comparison: the TMotor MN501-S KV360 paired with the P18×6.1 propeller and the MAD 5008 EEE 340KV paired with the FLUXER PRO 18×6.1 propeller. Both combinations were evaluated using manufacturer performance data. The electrical input power at the required hover thrust of 1,250 gf per motor was estimated using linear interpolation between adjacent test points.</p>
-<pre class="report-table">Parameter
-T-Motor MN501-S
-MAD 5008 EEE 340KV
-Motor mass
-175 g
-127 g
-Power at 1,250 gf
-139.0 W
-124.9 W
-Thrust efficiency
-9.0 gf/W
-10.0 gf/W
-Maximum tested thrust
-4,644 gf
-3,797 gf</pre>
-<p>At the required hover thrust, the MAD motor consumes approximately 10.2% less input power and delivers 11.3% higher thrust efficiency. Its 48 g lower motor mass results in a total mass saving of approximately 192 g across four motors (27.4%). Although its maximum tested thrust is lower, it can still generate 3,797 gf per motor, exceeding the preliminary requirement of 2,500 gf. Based on its lower power consumption, higher thrust efficiency, and reduced mass, the MAD Motor 5008 EEE KV360 was selected. However, these comparisons are based on different manufacturer test setups and should therefore be considered preliminary</p></div><div class="page-scan" id="scan-12" hidden><img loading="lazy" src="assets/pages/page-12.webp" alt="Original interim report page 12"></div></article>
-<article class="report-page" id="page-13"><div class="page-head"><span>REPORT PAGE 13 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-13">View original page ↗</button></div><div class="page-text"><p>Figure x. Manufacturer power-thrust data and the 1,250 gf hover reference.</p>
-<p>Comparison of Different Propeller Sizes</p>
-<p>The manufacturer provides performance data for three FLUXER PRO propellers paired with the MAD 5008 EEE 340KV motor: 17×5.8, 18×6.1, and 19×5.7, all tested under a 6S configuration. These combinations were compared at the required hover thrust of 1,250 gf per motor using linear interpolation between adjacent test points.</p>
-<p>The 17-inch propeller has nearly identical hover power consumption to the 18-inch propeller but produces lower maximum thrust (3,365 gf versus 3,797 gf) and requires a higher hover throttle setting (54% versus 50%). Given the uncertainty in wind conditions at the survey site, the 18×6.1 propeller was preferred for its greater tested thrust reserve, while maintaining comparable hover efficiency.</p>
-<pre class="report-table">Propeller
-Power at 1,250 gf
-Maximum tested thrust</pre>
-<pre class="report-table">17x5.8
-~126.2 W (~54% throttle)
-3,365 gf
-18x6.1 (selected)
-~124.9 W (~49.8% throttle)
-3,797 gf
-19x5.7
-~121.2 W (~48.1% throttle)
-3,924 gf
-The 19-inch propeller offers slightly lower hover power consumption than the 18-inch option but
-requires greater rotor clearance, potentially resulting in a larger and heavier frame. However, its
-maximum tested thrust increases by only 3.3% (from 3,797 gf to 3,924 gf), offering a modest
-improvement.</pre>
-<p>Therefore, the 18×6.1 propeller was selected as a practical compromise between hover efficiency, thrust reserve, and frame integration. This selection also agrees with the 18-inch diameter estimated using the preliminary disk loading of 75 N/m², providing a useful cross-check of the initial sizing. The 6.1-inch pitch was adopted from the manufacturer-tested combination.</p></div><div class="page-scan" id="scan-13" hidden><img loading="lazy" src="assets/pages/page-13.webp" alt="Original interim report page 13"></div></article>
-<article class="report-page" id="page-14"><div class="page-head"><span>REPORT PAGE 14 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-14">View original page ↗</button></div><div class="page-text"><p>Additionally, the calculated pitch-to-diameter ratio (P/D) of 0.339 indicates a relatively low pitch, consistent with the endurance-focused mission requirements.</p>
-<h3>3.1.4 Battery Selection and Endurance Optimisation</h3>
-<p>Battery Mass Sensitivity Analysis</p>
-<p>Following the preliminary propulsion-system selection, a battery mass sensitivity analysis was conducted to investigate the competing effects of battery mass on available energy and required propulsion power. Under the competition requirement, the dummy payload mass must equal the battery mass. Although a heavier battery provides greater stored energy, it also increases the hover thrust, and electrical power required to support the aircraft.</p>
-<p>To study this trade off, a parametric sensitivity analysis was performed across candidate battery masses. For each case, the total aircraft mass (including equal dummy mass), required thrust, motor operating point, electrical power demand and predicted hover endurance were recalculated using manufacturer performance data. A constant specific energy of 287 Wh/kg was assumed, representative of the selected high-energy lithium-ion battery class (355.2 Wh / 1.24 kg = 286.5 Wh/kg). This enables a consistent comparison of the mass–energy trade-off without introducing differences between individual battery products.</p>
-<p>As illustrated in Figure 2, predicted hover endurance increases across the feasible battery mass range, although the incremental benefit decreases as battery mass rises. This diminishing-return behaviour occurs because the gain in usable battery energy is increasingly offset by the additional propulsion power needed to lift the battery and dummy payload. Therefore, battery capacity was maximised within the 5 kg maximum take-off mass (MTOW) constraint. The selected battery mass is determined by this constraint and the availability of suitable commercial batteries, rather than by the unconstrained maximum of the endurance curve.</p></div><div class="page-scan" id="scan-14" hidden><img loading="lazy" src="assets/pages/page-14.webp" alt="Original interim report page 14"></div></article>
-<article class="report-page" id="page-15"><div class="page-head"><span>REPORT PAGE 15 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-15">View original page ↗</button></div><div class="page-text"><p>Figure 2. Predicted hover endurance versus battery mass. The grey region denotes configurations exceeding the</p>
-<p>approximate 5 kg MTOW boundary.</p>
-<h3>3.1.5 Selected Battery and Technology Rationale</h3>
-<p>Based on the battery mass sensitivity analysis and the propulsion system&#x27;s 6S configuration, the MAD 6S 16 Ah solid-state lithium-ion battery was selected. Its specifications are summarized in the table below.</p>
-<p>Battery specification Selected value</p>
-<p>Battery model MAD 6S 16 Ah solid-state lithium-ion</p>
-<p>Configuration / nominal voltage 6S / 22.2 V</p>
-<p>Capacity / nominal energy 16 Ah / 355.2 Wh</p>
-<p>Confirmed battery mass 1,240 g</p>
-<p>Specific energy (nominal) ~286.5 Wh/kg</p>
-<p>Continuous discharge 3C = 48 A</p>
-<p>Maximum discharge 5C = 80 A</p>
-<p>A high-energy lithium-ion battery was preferred over a conventional high-discharge lithiumpolymer (LiPo) battery due to its higher specific energy, allowing greater energy storage for a given mass. Although LiPo batteries generally offer higher discharge capability, lithium-ion batteries are more suitable for our endurance-focused hover and terrain-survey missions, provided that the required discharge current can be supported.</p></div><div class="page-scan" id="scan-15" hidden><img loading="lazy" src="assets/pages/page-15.webp" alt="Original interim report page 15"></div></article>
-<article class="report-page" id="page-16"><div class="page-head"><span>REPORT PAGE 16 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-16">View original page ↗</button></div><div class="page-text"><h3>3.1.6 Endurance Model Assumptions and Validation Plan</h3>
-<p>To provide a conservative preliminary endurance estimate, several assumptions were adopted, as summarised in the following table. These assumptions provide the rover team with an initial flight-time estimate to support mission planning and task allocation.</p>
-<p>Assumption Value / treatment</p>
-<p>Battery specific energy for sensitivity sweep 287 Wh/kg (constant)</p>
-<p>Dummy payload Equal to battery mass</p>
-<p>ESC efficiency 90% (assumed)</p>
-<p>Wiring/electrical-path efficiency 90% (assumed)</p>
-<p>Battery energy reserve 15% (assumed)</p>
-<p>Auxiliary electrical load 60 W</p>
-<p>Mass growth allowance 5% (design case; avoid duplicate application) Once the motor, propeller, and battery are available for testing, thrust and electrical power consumption will be measured at representative operating points to establish an experimental performance table. The results will then be used to develop a more realistic mission-based endurance model covering take-off, climb, transit, terrain surveying, hover and descent, providing an improved flight-time prediction for mission planning.</p></div><div class="page-scan" id="scan-16" hidden><img loading="lazy" src="assets/pages/page-16.webp" alt="Original interim report page 16"></div></article>
-<article class="report-page" id="page-17"><div class="page-head"><span>REPORT PAGE 17 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-17">View original page ↗</button></div><div class="page-text"><h3>3.2 Communication System Selections</h3>
-<h3>3.2.1 Signal Architecture</h3>
-<p>The communication links are our vital architecture for the competition. This section details the design of the non-direct line-of-sight communications link between the rover, base station and drone, as well as the architecture for ensuring live video feed and radio control with the drone.</p>
-<p>We split the communication systems into three independent wireless links, each serving a distinct operational function. This allows us to design and evaluate the control, video and rover telemetry separately within their own frequency band, accounting for latency and reliability.</p>
-<pre class="report-table">Link
-Frequency
-Selected Components
-Function
-Remote
-Control (RC)</pre>
-<p>Transmit flight control commands and receiver telemetry.</p>
-<pre class="report-table">2.4GHz
-Radiomaster TX16S MK3
-Controller + DBR4
-Receiver</pre>
-<pre class="report-table">5.8GHz
-Walksnail Avatar GT2
-Camera Kit + Goggles X</pre>
-<pre class="report-table">First Person
-View (FPV)
-Video</pre>
-<pre class="report-table">Real-time video transmission for
-reconnaissance and Situational
-awareness
-Rover
-Telemetry</pre>
-<pre class="report-table">2.4GHz
-Rocket M2 + GL-AR300M-
-Ext Repeater</pre>
-<p>Proposed communication relay between base station and rover.</p>
-<p>Although the RC and rover telemetry links both operate at 2.4GHz, they are independent systems. Simultaneously operating both links may potentially introduce signal interference, which we plan to mitigate by using channels at the opposite ends of the frequency band. However, this must be verified with additional experimentation.</p>
-<p>This design ensures that the loss or degradation of one communication function would not impact others. More practical independence still needs to verify the system&#x27;s requirements.</p>
-<h3>3.2.2 Link Budget Calculation Methodology</h3>
-<p>Link budgeting is a method of estimating the received signal power using transmitter output, antenna gains and signal attenuation. This provides an initial theoretical gauge of the range of the signal based on our selected hardware’s specifications. In this analysis, unobstructed signal</p></div><div class="page-scan" id="scan-17" hidden><img loading="lazy" src="assets/pages/page-17.webp" alt="Original interim report page 17"></div></article>
-<article class="report-page" id="page-18"><div class="page-head"><span>REPORT PAGE 18 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-18">View original page ↗</button></div><div class="page-text"><p>attenuation is calculated using free-space path loss (FSPL), which increases with both transmission frequency and distance. We also account for additional losses through cables and other system imperfections. The resulting receiving power is compared against the receiver’s estimated sensitivity to determine the link margin.</p>
-<h3>3.2.3 Link Budget Equations</h3>
-<p>Free Space Path Loss</p>
-<pre class="report-table">Where:
-• PL: Free space path loss (dB)
-• f: Frequency (MHz)
-• d: Distance (km)
-RF Cable Loss</pre>
-<pre class="report-table">Where:
-• α: Attenuation per unit length (dB/m)
-• l: Cable Length (m)
-Received Signal Power</pre>
-<pre class="report-table">Where:
-• 𝑃𝑅𝑋: Received Power
-• 𝑃𝑇𝑋: Transmitted Power
-• 𝐺𝑅𝑋: Receiver Antenna Gain
-• 𝐺𝑇𝑋: Transmitter Antenna Gain
-Link Margin</pre>
-<pre class="report-table">Where:
-• LM: Link Margin
-• 𝑆𝑅𝑋: Receiver Sensitivity</pre>
-<h3>3.2.4 Calculation Assumptions</h3>
-<pre class="report-table">Parameter
-Assumed value
-Justification</pre>
-<p>Operating distance 1.2 km per hop</p>
-<pre class="report-table">A conservative value for the estimated
-1km maximum distances between the
-base station, drone and lander.</pre>
-<pre class="report-table">Propagation model
-Free-space path loss
-Assuming unobstructed line-of-sight
-communication.</pre>
-<p>Minimum link margin 20 dB</p>
-<pre class="report-table">Recommended conservative margin for
-Outdoor Long-Range RF
-Communications.</pre></div><div class="page-scan" id="scan-18" hidden><img loading="lazy" src="assets/pages/page-18.webp" alt="Original interim report page 18"></div></article>
-<article class="report-page" id="page-19"><div class="page-head"><span>REPORT PAGE 19 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-19">View original page ↗</button></div><div class="page-text"><pre class="report-table">Antenna alignment
-Nominal alignment
-Assumes antennas operate with their
-stated gains in the relevant direction</pre>
-<pre class="report-table">Environmental conditions
-Unobstructed LOS
-Establishes theoretical performance
-before terrain and interference losses</pre>
-<pre class="report-table">Additional Losses
-Link-Specific
-Represents connector, cable and
-miscellaneous implementation losses.</pre>
-<h3>3.2.5 RC Control Link</h3>
-<p>The RC link provides the longest calculated range among the three links considered. For this link we decided on the RadioMaster TX16S Mk3 Controller paired with the DBR4 Dual-band receiver. This system is advantageous for its dual-band capability, where both devices can switch between the primary 2.4GHz and the secondary 900MHz frequency bands. From the link budget table below, we find that a 900MHz link outperforms 2.4GHz in terms of range due to less freespace path loss.</p>
-<pre class="report-table">Parameter
-2.4GHz
-900MHz
-Description
-Transmitter Power
-30 dBm
-33 dBm
-Taken from Specs table
-Transmitter Antenna Gain
-2 dBi
-2 dBi
-“
-Receiver Antenna Gain
-2 dBi
-2 dBi
-“
-Additional Losses
-4.4 dB
-2.6 dB
-Cable Loss formula
-Receiver Sensitivity
--105 dBm
--105 dBm
-Preliminary estimation
-Link Margin at 1.2km
-50.9 dB
-35.4 dB
-&gt; 20 dB Minimum</pre>
-<p>As shown in the table, both proposed links would meet the minimum link margin requirement. The consideration between using either 2.4GHz or 900MHz during the competition depends on local frequency band restrictions, actual range test performance and potential interference with other links from the base station and rover. This will be determined through additional testing conducted in semester 2.</p>
-<p>To further illustrate the capabilities of the links, this graph shows the maximum range of the links while staying above the 20 dBm margin. As shown, the maximum range of the 2.4GHz and</p></div><div class="page-scan" id="scan-19" hidden><img loading="lazy" src="assets/pages/page-19.webp" alt="Original interim report page 19"></div></article>
-<article class="report-page" id="page-20"><div class="page-head"><span>REPORT PAGE 20 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-20">View original page ↗</button></div><div class="page-text"><p>900MHz signals are 7.0km and 42.0km respectively. Hence, we conclude that this design meets the required range specifications.</p>
-<h3>3.2.6 FPV Video Link</h3>
-<p>Secondly, the FPV link ensures continuous transmission of live video feed throughout the missions, which is especially useful for reconnaissance. We chose the Walksnail GT2 Camera and (Video Transmitter) VTX kit, which outputs 1080p video at 60 frames-per-second. It is also compatible with the GM3 gimbal and our existing Walksnail Goggles X, reducing the need for additional system integration. However, the 5.8GHz link experiences the largest free-space attenuation at the same distance. Therefore, selecting a transmitter with sufficient output power and antenna gain is crucial to ensure reliable signal performance. The table below showcases the calculated link margins using the stock antenna and an 8 dBi antenna which increases the gain of the transmitter.</p>
-<p>Description</p>
-<pre class="report-table">Parameter
-Stock
-Antenna</pre>
-<p>8 dBi Antenna</p>
-<pre class="report-table">Transmitter Power
-33 dBm
-33 dBm
-Taken from Specs table
-Transmitter Antenna Gain
-2 dBi
-8 dBi
-=
-Receiver Antenna Gain
-2 dBi
-2 dBi
-=
-Additional Losses
-2 dB
-2 dB
-Cable Loss formula
-Receiver Sensitivity
--90 dBm
--90 dBm
-Preliminary estimation
-Link Margin at 1.2km
-13.7 dB
-19.7 dB
-&lt; 20 dB Minimum</pre>
-<p>As shown, theoretically an 8 dBi antenna would increase the link margin close to the minimum requirement at 1.2km. However, more experimental validation of this system performance is required before we confirm the purchase of this antenna.</p>
-<p>This graph shows the theoretical range of the link with and without the upgraded antenna. From this we conclude that an upgraded antenna is required to reach the maximum drone distance for our missions.</p></div><div class="page-scan" id="scan-20" hidden><img loading="lazy" src="assets/pages/page-20.webp" alt="Original interim report page 20"></div></article>
-<article class="report-page" id="page-21"><div class="page-head"><span>REPORT PAGE 21 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-21">View original page ↗</button></div><div class="page-text"><h3>3.2.7 Repeater Link</h3>
-<p>Lastly, our 2.4GHz repeater link provides the wifi extension required from the base station to the rover. We intend to use the GL-iNet GL-AR300M-Ext module for its compact form factor and the appropriate 2.4GHz wi-fi protocol to establish the connection. The link budget table below shows its specifications:</p>
-<pre class="report-table">Parameter
-Value
-Description
-Rocket M2 Transmitter Power
-20 dBm
-Assumed for mission requirements
-Rocket M2 Transmitter Antenna Gain
-12 dBi
-Specs Sheet
-GL-AR300M-Ext Transmitter Power
-20 dBm
-Assumed for mission requirements
-GL-AR300M-Ext Receiver Antenna Gain
-5 dBi
-Specs Sheet
-Additional Losses
-2 dB
-Cable Loss formula
-Receiver Sensitivity
--90 dBm
-Preliminary estimation
-Link Margin at 1.2km
-23.4 dB
-&lt; 20 dB Minimum</pre>
-<p>The relatively high margin of 23.4 dB suggests sufficient headroom is available for line-of-sight conditions. However, actual performance may be affected by cable attenuation, antenna orientation, interference and selected ELRS operating more. Hence performance validation is required.</p>
-<h3>3.2.8 Link Budget Summary</h3>
-<p>With the appropriate antennas, all three links theoretically have sufficient power to sustain the full distance for this competition. However, additional factors during actual flight such as antenna alignment, terrain obstruction and radio interference cannot be accounted for in calculations. As such, physical testing must be done to validate system performance.</p>
-<h3>3.3 Wiring Architecture</h3>
-<p>Figures 1 to 6 show the subsystem connections and their purposes. Orange arrows indicate power, blue indicates control or serial data, teal indicates Controller Area Network (CAN), and purple indicates radio or camera coax.</p>
-<h3>3.3.1 Overall System</h3>
-<h3>3.3.2 Power Distribution System</h3></div><div class="page-scan" id="scan-21" hidden><img loading="lazy" src="assets/pages/page-21.webp" alt="Original interim report page 21"></div></article>
-<article class="report-page" id="page-22"><div class="page-head"><span>REPORT PAGE 22 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-22">View original page ↗</button></div><div class="page-text"><p>Figure 1 Battery power and regulated electronics supplies</p>
-<p>The battery feeds the power module (PM08-CAN). Its main output supplies the ESC and fused accessory branch. The PM08-CAN also provides regulated 5.3 V to the flight controller, Pixhawk through an in-built power outlet and sends battery measurements separately through its CAN. The step-down converter (Matek BEC) is set to 12 V for the GT2 video transmitter and GM3 gimbal [5,6]. This prevents propulsion current from passing through the flight controller and avoids applying full battery voltage to the video equipment.</p>
-<h3>3.3.3 Propulsion System</h3>
-<p>Figure 2 Independent ESC channels and motor phase connections</p>
-<p>The electronic speed controller (ESC), Tekko32 contains four independently controlled motor channels. Pixhawk sends a separate DShot300 command to each, and the ESC converts battery power into the three-phase supply required by each motor. The integrated board reduces separate mounts and power connections compared with four individual ESCs. Its tradeoffs are concentrated heat and whole-board replacement following a channel failure.</p>
-<h3>3.3.4 Flight Control System</h3></div><div class="page-scan" id="scan-22" hidden><img loading="lazy" src="assets/pages/page-22.webp" alt="Original interim report page 22"></div></article>
-<article class="report-page" id="page-23"><div class="page-head"><span>REPORT PAGE 23 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-23">View original page ↗</button></div><div class="page-text"><p>Figure 3 Pixhawk inputs and outputs with GNSS provision</p>
-<p>Pixhawk receives pilot commands and sensor measurements, then ArduPilot calculates individual motor outputs to control attitude. The Pixhawk 6X provides serial, CAN and motor interfaces , the Mini Baseboard reduces mounting space and mass compared with building a custom baseboard [3]. The GT2 receives flight information separately for its on-screen display.</p>
-<h3>3.3.5 Radio Control System</h3>
-<p>Figure 4 Pilot commands and return telemetry through the DBR4</p>
-<p>ExpressLRS, a communication protocol built for drones transmits commands to the DBR4, which forwards commands to Pixhawk. This command path is separate from rover relay.</p>
-<h3>3.3.6 Video and Gimbal System</h3></div><div class="page-scan" id="scan-23" hidden><img loading="lazy" src="assets/pages/page-23.webp" alt="Original interim report page 23"></div></article>
-<article class="report-page" id="page-24"><div class="page-head"><span>REPORT PAGE 24 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-24">View original page ↗</button></div><div class="page-text"><p>Figure 5 Camera video OSD and gimbal control paths</p>
-<p>The camera exchanges power and image data with the GT2. The GT2 transmits video to the ground goggles, receives Pixhawk OSD information on UART2, and uses UART3 for gimbal control. The GM3 lets the operator redirect the camera while the drone maintains its relay position. This supports terrain reconnaissance and observation of the rover without turning the entire aircraft. The gimbal improves observation rather than directly increasing radio range [9,12].</p>
-<h3>3.4 Software Stack</h3>
-<h3>3.5 Technical Challenges</h3>
-<h3>3.5.1 Piloting from within the Base Station</h3>
-<p>One major design challenge was ensuring operation of the drone from within our base station. Rather than having a clear line-of-sight from the operator to the drone, the base station is an enclosed area, which cuts off radio connection via antenna. As such, we are required to find extension cables to place the antenna outside the base station.</p>
-<p>The competition guidelines recommend a length of 20 meters of antenna cable from the base station to the antenna housing area. This poses some additional difficulties, as long distance cables introduce additional cable loss into our link budget calculations. For our design we selected a 20 meter LMR400 coaxial cable as the extension cable from the controller to its antenna and a similar length HDMI cable to transmit the video feed from the goggles to the monitor. Our calculated cable losses are as follows:</p>
-<pre class="report-table">Cable
-Attenuation Per Meter Calculated Loss
-Link Margin
-LMR400 (at 2.4GHz)
-0.218 dB/m
-4.36 dB
-32.8 dB</pre></div><div class="page-scan" id="scan-24" hidden><img loading="lazy" src="assets/pages/page-24.webp" alt="Original interim report page 24"></div></article>
-<article class="report-page" id="page-25"><div class="page-head"><span>REPORT PAGE 25 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-25">View original page ↗</button></div><div class="page-text"><pre class="report-table">LMR400 (at 900MHz)
-0.128 dB/m
-2.56 dB
-46.5 dB
-HDMI (8 dBi antenna)
-0.3 – 0.8 dB/m
-6 – 16 dB
-3.7 - 13.7 dB</pre>
-<p>The actual performance of both extension architecture remains uncertain due to several factors that are difficult to quantify through theoretical calculations. Firstly, the signal attenuation of the HDMI cable varies depending on the cable’s construction and specifications. Furthermore, the use of LMR400 coaxial cables requires additional SMA to N-type adaptors at the controller and antenna connections. These also introduce additional insertion losses and potential impedance mismatches, which may further reduce the effectiveness of transmitted signal power.</p>
-<p>While theoretical calculations provide an initial estimate of the attenuation, they may not fully account for the practical losses and its combined effects on the system performance. Consequently, these calculations alone are insufficient to establish the practical feasibility of the proposed architecture. Experimental validation is necessary, including RF range testing to verify stable video transmission over 20 meters, to determine suitability for actual deployment and if alternative cable solutions are required.</p>
-<h3>3.5.2 Estimated System Parameters</h3>
-<p>Our second major design challenge is having reliance on manufacturer datasheets for component specifications. Unlike other subsystems in our CCA, budget and time constraints limit our ability to develop and test multiple prototypes. Consequently, important parameters like component dimensions, mass, battery performance and motor efficiency are derived primarily from manufacturer data, where components are tested under controlled environments. These values may differ in actual operating conditions, which introduces uncertainty in our design.</p>
-<p>This issue is further exacerbated by the interdependence of design parameters. One example is our battery mass, which determines the dummy payload’s mass and affects flight endurance. Hence, an underestimation of battery mass would significantly impact our flight time estimation. Such dependencies mean that small inaccuracies would have cumulative impact on our drone’s performance.</p>
-<p>To mitigate uncertainty, we implemented conservative design margins into our calculation, as follows:</p>
-<pre class="report-table">Parameter
-Value
-Overall Mass Growth
-5%
-Wiring Loss
-10%
-ESC Loss
-10%
-Battery Reserve
-15%
-Battery Voltage Sag Estimation
-Dynamic value from internal resistance and
-current draw.
-Minimum RF Link Margin
-20 dB</pre></div><div class="page-scan" id="scan-25" hidden><img loading="lazy" src="assets/pages/page-25.webp" alt="Original interim report page 25"></div></article>
-<article class="report-page" id="page-26"><div class="page-head"><span>REPORT PAGE 26 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-26">View original page ↗</button></div><div class="page-text"><p>These assumptions aim to prevent overestimation of drone performance, providing conservative predictions of flight time and range. This is particularly importantly for mission planning, as it allows other teams to plan within realistic performance limits while reducing the risk of exceeding our actual capabilities. These estimates will be refined through further component validation and testing.</p></div><div class="page-scan" id="scan-26" hidden><img loading="lazy" src="assets/pages/page-26.webp" alt="Original interim report page 26"></div></article>
-</section><section class="chapter" id="testing"><div class="chapter-kicker">ASI-402 / INTERIM REPORT</div><h2>4. Preliminary Testing</h2>
-<article class="report-page" id="page-27"><div class="page-head"><span>REPORT PAGE 27 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-27">View original page ↗</button></div><div class="page-text"><p>4. Preliminary Testing</p>
-<h3>4.1 Mechanical Design and Integration</h3>
-<p>The symmetric four-arm frame is sized to accommodate 18-inch propellers. The central structure is divided into an upper electronics platform for the flight controller and communication hardware and a lower compartment for the battery and camera/gimbal. The battery is located near the geometric centre to reduce its contribution to centre-of-gravity offset; the full massweighted CG must still be calculated, including the equal dummy mass. The underslung camera supports downward terrain observation, while the landing gear provides ground clearance.</p>
-<p>Preliminary CAD view of the component arrangement.</p>
-<p>The initial CAD model was developed before the physical components were received. With the components now available, the next steps include 3D scanning components with complex geometries, refining mounting interfaces, verifying propeller clearance and wiring accessibility, determining the overall center of gravity (CG), and finalizing mechanical integration. Structural and flight-test validation have not yet been conducted at this interim stage.</p></div><div class="page-scan" id="scan-27" hidden><img loading="lazy" src="assets/pages/page-27.webp" alt="Original interim report page 27"></div></article>
-<article class="report-page" id="page-28"><div class="page-head"><span>REPORT PAGE 28 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-28">View original page ↗</button></div><div class="page-text"><h3>4.2 Repeater Module Testing</h3>
-<p>Preliminary testing was conducted to evaluate compatibility between our selected GL-AR300Ext Module and the Rocket M2 radio, which are part of the 2.4GHz communications relay between the base station, drone and lander. The objective was to establish a wireless connection between the two devices and verify basic network connectivity through ping testing.</p>
-<h2>Testing &amp; Results</h2>
-<p>Testing between different configurations of the GL.iNet module, we successfully connected the Wi-Fi repeater in both router and extender modes, through reconfiguration of IP addresses. Our final ping test after rounds of troubleshooting successfully transmitted four packets at a response time of 2 to 30 milliseconds. These results demonstrate achievable connection between the two devices under short range conditions.</p>
-<p>Further testing is required to ensure long-range communication with realistic outdoor operating conditions, and end-to-end relay functionality must also be validated before we can confirm the suitability of this architecture.</p></div><div class="page-scan" id="scan-28" hidden><img loading="lazy" src="assets/pages/page-28.webp" alt="Original interim report page 28"></div></article>
-</section><section class="chapter" id="timeline"><div class="chapter-kicker">ASI-402 / INTERIM REPORT</div><h2>5. Project Timeline</h2>
-<article class="report-page" id="page-29"><div class="page-head"><span>REPORT PAGE 29 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-29">View original page ↗</button></div><div class="page-text"><p>5. Project Timeline</p>
-<p>We planned our project timeline around the various milestones in our project. With major milestones placed at the end of each semester, we broke down the work into 6 phases, ensuring our final milestone can be achieved within the academic year. The following table showcases the breakdown of each phase in our timeline and their desired outcomes.</p>
-<pre class="report-table">S/N Phase / Milestone
-Semester
-Description
-1
-Design
-1
-Defining of system requirements,
-communication hardware, establishing of
-mass and power budgets and initial CAD
-models.
-2
-Subsystem Testing
-1
-Testing of proposed repeater hardware with
-GNSS team, review of selected
-component’s specifications, estimate of
-system performance.
-Interim Submission
-1
-Review of Design &amp; Initial Testing Phase
-3
-Full Component Testing
-Winter + 2
-Finalise on CAD and FEA simulations,
-performance validation of all components.
-4
-Integration
-2
-Complete electrical and mechanical
-assembly and programming of flight
-controller and communications payload.
-5
-Flight Testing
-2
-PID Tuning, hover endurance testing, range
-testing, mission planning.
-6
-CV Integration
-2
-Benchmarking of different AI models,
-conducting integrated mission testing.
-Final Submission &amp;
-Competition</pre>
-<pre class="report-table">2
-Review of design specifications and
-evaluation of system performance.</pre>
-<h3>5.1 Parallel Workstreams</h3>
-<p>For efficiency and clear definition of our personal responsibilities, we developed individual workstreams to concurrently work on different aspects of the design. We also set-up regularly scheduled team meetings and participated in biweekly CCA meetings to ensure component level integration and aligning of design perspectives with other subsystems. The following table describes our individual workstreams.</p>
-<p>Integration Flight Testing</p>
-<pre class="report-table">Phase
-Design
-Subsystem
-Testing</pre>
-<p>Component Testing</p>
-<pre class="report-table">Julian
-RF
-Selection</pre>
-<p>Repeater Testing</p>
-<p>CV &amp; Range Testing</p>
-<pre class="report-table">FPV &amp;
-Signal
-Testing</pre>
-<pre class="report-table">CV
-architecture
-Research &amp;
-Software</pre></div><div class="page-scan" id="scan-29" hidden><img loading="lazy" src="assets/pages/page-29.webp" alt="Original interim report page 29"></div></article>
-<article class="report-page" id="page-30"><div class="page-head"><span>REPORT PAGE 30 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-30">View original page ↗</button></div><div class="page-text"><p>PID Tuning</p>
-<pre class="report-table">Joel
-FC/ESC
-Selection</pre>
-<p>Wiring Architecture</p>
-<p>FC/ESC Testing</p>
-<pre class="report-table">Electrical
-Assembly &amp;
-Software</pre>
-<p>Mechanical Assembly</p>
-<p>Endurance / Hover Testing</p>
-<pre class="report-table">Benedict
-Mass &amp;
-Power
-Budget</pre>
-<pre class="report-table">Motor &amp;
-Battery
-Sizing</pre>
-<pre class="report-table">Motor
-Thrust
-Testing</pre>
-<pre class="report-table">ZiHann
-Frame
-Selection</pre>
-<p>CAD Designing</p>
-<p>FEA analysis + Frame Build</p>
-<p>Fine-tune component fits.</p></div><div class="page-scan" id="scan-30" hidden><img loading="lazy" src="assets/pages/page-30.webp" alt="Original interim report page 30"></div></article>
-</section><section class="chapter" id="risks"><div class="chapter-kicker">ASI-402 / INTERIM REPORT</div><h2>6. Risk Analysis</h2>
-<article class="report-page" id="page-31"><div class="page-head"><span>REPORT PAGE 31 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-31">View original page ↗</button></div><div class="page-text"><p>6. Risk Analysis</p>
-<p>Mitigation Action</p>
-<p>Identified Hazard</p>
-<pre class="report-table">Pre-
-Mitigation
-Risk</pre>
-<pre class="report-table">Post-
-Mitigation
-Risk</pre>
-<p>Autonomous onboard failsafe scripts and redundant 900MHz telemetry backup link.</p>
-<pre class="report-table">1. Mid-Flight
-Connection
-Loss</pre>
-<pre class="report-table">High
-(Likely ×
-Severe)</pre>
-<pre class="report-table">Low
-(Unlikely
-× Minor)</pre>
-<p>3-stage progressive testing:</p>
-<p>No-prop motor test</p>
-<p>2. Premature Flight Crash</p>
-<p>v Tethered rope hover</p>
-<pre class="report-table">Medium
-(Possible ×
-Critical)</pre>
-<pre class="report-table">Low
-(Unlikely
-× Minor)</pre>
-<p>v Free flight</p>
-<p>External ESC prop-wash mounting, CNC</p>
-<p>heatsinks, RPM filtering, and 80°C</p>
-<p>3. Thermal Overheating</p>
-<pre class="report-table">High
-(Likely ×
-Critical)</pre>
-<p>telemetry threshold.</p>
-<pre class="report-table">Low
-(Unlikely
-×
-Moderate)</pre>
-<p>Table (insert number): Summary of Identified Operational Hazards and Technical Mitigation Strategies.</p>
-<p>To ensure safety and hardware protection during the building and testing phases of our drone, we evaluated potential failure modes and implemented targeted safeguards to eliminate or minimize their impact. Because early assembly and flight validation carry heightened risks of software misconfiguration, link instability, and thermal buildup, our development workflow prioritizes controlled, incremental verification and automated failsafe boundaries before advancing to unrestricted flight trials. Table (insert number) summarizes the primary hazards identified during our testing phase alongside their corresponding mitigation strategies and resulting risk reductions.</p></div><div class="page-scan" id="scan-31" hidden><img loading="lazy" src="assets/pages/page-31.webp" alt="Original interim report page 31"></div></article>
-</section><section class="chapter" id="summary"><div class="chapter-kicker">ASI-402 / INTERIM REPORT</div><h2>7. Summary</h2>
-<article class="report-page" id="page-32"><div class="page-head"><span>REPORT PAGE 32 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-32">View original page ↗</button></div><div class="page-text"><p>7. Summary</p>
-<p>To conclude, our project aims to develop a custom quadcopter for supporting the NUS Mars Rover Team in the University Rover Challenge 2027, with our main capabilities of aerial reconnaissance and establishing non-line-of-sight communications relay. Overall, we laid the foundation of our design in this semester through an iterative design process, and developed a clear plan for full integration and operational testing of the drone in semester 2.</p>
-<h2>Current Progress</h2>
-<p>Throughout this first semester, our team established our preliminary system architecture and component selections, conducting subsystem-level analysis to evaluate the feasibility of the proposed design. Significant progress was made in propulsion and battery optimisation, mechanical design, electrical system integration and wireless communication architecture. Using iterative mass budgeting, flight endurance estimation, and link budgeting calculations, we developed a design that both achieves mission objectives and stays within competition restrictions. Initial wireless repeater connectivity has also been successfully established in this term.</p>
-<h2>Future Work</h2>
-<p>Nevertheless, uncertainties remain in terms of actual flight performance, due to a heavy reliance on manufacturer specifications and theoretical calculation frameworks. While conservative design margins have been incorporated to account for our potential discrepancies, further experimental validation required to verify actual performance and reliability. In semester 2, we aim to complete mechanical and electrical integration of the parts, along with individual component testing, before proceeding with flight tests, CV integration and ultimately mission planning for the final competition. These activities will help to address our uncertainties in flight performance and evaluate the system against our initial design requirements, to ensure an operationally ready drone before our final submission and URC2027 Competition.</p></div><div class="page-scan" id="scan-32" hidden><img loading="lazy" src="assets/pages/page-32.webp" alt="Original interim report page 32"></div></article>
-</section><section class="chapter" id="references"><div class="chapter-kicker">ASI-402 / INTERIM REPORT</div><h2>References</h2>
-<article class="report-page" id="page-33"><div class="page-head"><span>REPORT PAGE 33 / 33</span><button class="page-toggle" type="button" aria-expanded="false" aria-controls="scan-33">View original page ↗</button></div><div class="page-text"><h2>References</h2>
-<p>URC2027 Guidelines: https://urc.marssociety.org/home/requirements-guidelines</p></div><div class="page-scan" id="scan-33" hidden><img loading="lazy" src="assets/pages/page-33.webp" alt="Original interim report page 33"></div></article>
-</section><footer>ASI-402 · NUS Mars Rover Team · University Rover Challenge 2027<br><a href="#top">Back to top ↑</a></footer></main></div><script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="theme-color" content="#08111d">
+        <meta name="description" content="NUS Mars Rover Team — URC 2027 Quadcopter Engineering Design">
+        <title>ASI-402 | URC 2027 Drone</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+<div class="noise"></div>
+<header class="topbar">
+    <a class="brand" href="#home">
+        <span class="brand-mark">✦</span>
+        <span>ASI<span class="accent">—</span>
+        402 <small>/ URC 2027</small></span>
+    </a>
+    <nav id="nav">
+        <a href="#overview">Overview</a>
+        <a href="#organisation">Organisation</a>
+        <a href="#propulsion">Propulsion</a>
+        <a href="#communications">Comms</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#testing">Testing</a>
+        <a href="#roadmap">Roadmap</a>
+        <img
+        src="assets/TEAM LOGO TRANSPARENT (smaller).png"
+        alt="NUS Mars Rover Team Logo"
+        class="team-logo"/>
+    </nav><button id="menu" aria-label="Toggle navigation">☰</button>
+</header>
+<main>
+    <section class="hero" id="home">
+        <div class="hero-copy"><p class="eyebrow"><span class="pulse"></span>NUS MARS ROVER TEAM<span class="slash">/</span>CDE4301 Innovation & Design Captstone</p>
+            <h1>MARS ROVER<br/><em>DRONE</em>TEAM<br/></h1>
+     <p class="lead">
+      Design of a custom quadcopter for aerial reconnaissance and non-line-of-sight communications relay in the University Rover Challenge 2027.
+
+      Julian Cheah Ming Feng | Joel Jesukumar William | Benedict Lim Wei Chen | Looi Zi Hann
+     </p>
+     <div class="actions">
+      <a class="btn primary" href="#overview">Project Details ↗</a>
+      <a class="btn ghost" href="assets/interim-report.pdf" target="_blank">Interim Report ↗</a>
+     </div>
+     <p class="micro">PROJECT ASI-402<span>•</span>INTERIM DESIGN <span>•</span>2026–27</p>
+    </div>
+        <!-- Drone CAD Render -->
+        <div class="drone-cad-container">
+        <img
+            src="assets\pic_(1).png"
+            alt="URC 2027 Quadcopter CAD Model"
+            class="drone-cad-image"
+        />
+        <div class="cad-label">
+            <span class="cad-status-dot"></span>
+            PRELIMINARY CAD MODEL
+        </div>
+        </div>
+            </section>
+<section class="metrics" aria-label="Design targets">
+    <div><span>MAX TAKEOFF MASS</span><strong>5.0 <small>kg</small></strong><i>Competition limit</i></div>
+    <div><span>HOVER ENDURANCE</span><strong>20 <small>min</small></strong><i>Minimum design target</i></div>
+    <div><span>RECONNAISSANCE RADIUS</span><strong>2.0 <small>km</small></strong><i>Design objective</i></div>
+    <div><span>RELAY COVERAGE</span><strong>1.0 <small>km</small></strong><i>Operational radius target</i></div>
+</section>
+<section class="section" id="overview">
+    <div class="section-heading"><p class="eyebrow">01 OVERVIEW / </p>
+        <h2>INTRODUCTION </h2>
+        <p>The University Rover Challenge (URC) is a robotics competition for university students, organized annually by the Mars Society near the Mars Desert Research Station (MDRS) in the desert of southern Utah, United States. The competition tasks student teams with designing and building next-generation Mars exploration rovers capable of executing field missions that simulate real planetary surface operations.
+
+            Field performance is evaluated across 4 distinct missions: Delivery, Autonomy, Equipment Servicing, and Astrobiology. Each mission is worth 100 points for a maximum achievable score of 400 mission points, though the drone can only be utilized for the Delivery and Autonomy missions. The Delivery Mission requires rovers to retrieve and deliver objects weighing up to 5 kg across challenging terrain over distances up to 1 km. The Autonomy Mission demands full autonomous navigation through waypoints as well as astronaut assistance and tool retrieval tasks without any human teleoperation. Overall team standings combine field mission points with engineering evaluations from the System Acceptance Review (SAR), which is submitted prior to the field competition.</p></div>
+        
+        <h2>Project Overview & Problem Statement</h2>
+        <p>For this competition, our rover is expected to traverse undulating terrain at an estimated distance of up to 2 km. This introduces the risk of communication loss between the rover and our base station due to signal attenuation over long ranges and obstructed line-of-sight due to natural obstacles. As such, the aerial drone subsystem is deployed specifically during the Delivery Mission and Autonomy Mission to support ground operations. Serving as a Non-Line-of-Sight (NVLOS) RF relay operating at an elevated hover altitude of 60 m AGL, the drone acts as an airborne repeater bridging primary telemetry and video links between the Command and Control base station and the ground rover when line-of-sight is severed by canyon walls and terrain ridges. Additionally, the drone provides aerial reconnaissance by scouting ahead of the ground rover to identify optimal driving paths, locate scattered mission equipment, and detect elevated ArUco markers beyond the field of view of ground-level cameras.</p>
+            
+        
+        <div class="two-col"><article class="panel"><h3>Mission objectives</h3>
+            <div class="feature"><b>01</b>
+                <div><h4>Airborne RF relay</h4><p>Bridge the base station and rover across terrain obstructions while hovering at a proposed 60 m AGL.</p></div></div>
+                <div class="feature"><b>02</b>
+                    <div><h4>Aerial reconnaissance</h4><p>Scout driving routes, locate mission equipment and support elevated ArUco marker identification.</p></div></div>
+                    </article>
+                    <article class="panel constraints"><h3>Design constraints</h3>
+                            <div class="constraint"><span>Dummy mass</span><b>1:1 battery mass</b></div>
+                            <div class="constraint"><span>Maximum altitude</span><b>120 m AGL</b></div>
+                            <div class="constraint"><span>Maximum mass</span><b>5.0 kg</b></div>
+                            <div class="constraint"><span>Recommended wind tolerance</span><b>48 km/h</b></div>
+                            <div class="constraint"><span>Minimum top speed target</span><b>36 km/h</b></div>
+                            </article></div>
+                            
+
+
+<!-- ========================================= -->
+<!-- MARS ROVER TEAM ORGANISATION CHART         -->
+<!-- ========================================= -->
+
+<section id="organisation" class="org-section">
+  <div class="org-header">
+    <p class="org-eyebrow">TEAM STRUCTURE</p>
+    <h2>NUS Mars Rover Team</h2>
+    <p>
+      The NUS Mars Rover Team consists of 8 subsystems, each responsible for a different aspect of the rover and operation. 
+    </p>
+  </div>
+  <!-- Main Team -->
+  <div class="org-root">
+    <img
+      src="assets/TEAM LOGO TRANSPARENT (smaller).png"
+      alt="Mars Rover Team Logo"
+      class="org-root-logo"
+    />
+    <div>
+      <h3>NUS Mars Rover Team</h3>
+      <p>University Rover Challenge 2027</p>
+    </div>
+  </div>
+  <!-- Organisation Chart Connections -->
+  <div class="org-connector"></div>
+  <!-- Subsystem Cards -->
+  <div class="org-grid">
+    <div class="org-card">
+      <h3>Chassis Electrical</h3>
+      <p>
+        In charge of all electrical systems
+        onboard the rover.
+      </p>
+    </div>
+    <div class="org-card">
+      <h3>Chassis Mechanical</h3>
+      <p>
+        Handles mechanical chassis design
+        and fabrication of mechanical parts
+        for other subsystems.
+      </p>
+    </div>
+    <div class="org-card">
+      <h3>Auto-Navigation</h3>
+      <p>
+        Develops autonomous navigation
+        algorithms and tunes rover movement
+        through the competition course.
+      </p>
+    </div>
+    <div class="org-card">
+      <h3>Arm</h3>
+      <p>
+        Designs the main manipulator
+        and end-effector for the rover.
+      </p>
+    </div>
+    <div class="org-card">
+      <h3>Astrobiology</h3>
+      <p>
+        Designs the soil sampling mechanism
+        and conducts sample testing
+        for the science mission.
+      </p>
+    </div>
+    <div class="org-card">
+      <h3>GNSS-Comms</h3>
+      <p>
+        Manages communication systems,
+        antennas, radio links and GPS
+        positioning for the rover,
+        drone and base station.
+      </p>
+    </div>
+    <div class="org-card">
+      <h3>Command & Control (C2)</h3>
+      <p>
+        Manages base station logistics
+        and mission planning.
+      </p>
+    </div>
+    <!-- Highlighted Drone Subsystem -->
+    <div class="org-card org-card-drone">
+      <div class="org-drone-badge">
+        OUR SUBSYSTEM
+      </div>
+      <h3>Drone Team</h3>
+      <p>
+        Designs and develops a custom
+        quadcopter to support rover
+        missions through aerial reconnaissance
+        and communication relay.
+      </p>
+    </div>
+  </div>
+  <div class="team"><p class="eyebrow">PROJECT TEAM</p>
+                                <div class="team-grid">
+                                <div><b>Julian Cheah Ming Feng</b><span>Team Lead · Communications</span><p>Robotics Specialisation</p></div>
+                                <div><b>Joel Jesukumar William</b><span>Electrical · Power Distribution</span><p>Robotics Specialisation</p></div>
+                                <div><b>Benedict Lim Wei Chen</b><span>Propulsion · Endurance</span><p>Aeronautical Specialisation</p></div>
+                                <div><b>Looi Zi Hann</b><span>Mechanical · Frame</span><p>Aeronautical Specialisation</p></div></div></div></section>
+</section>
+
+<section class="section dark-section" id="propulsion">
+    <div class="section-heading"><p class="eyebrow">02 / PROPULSION & ENERGY</p>
+        <h2>BUILT FOR <span class="accent">ENDURANCE.</span></h2>
+        <p>Preliminary component selection uses manufacturer test data and iterative mass and power budgeting. Figures are estimates pending bench verification.</p></div>
+        <div class="spec-grid"><article class="spec"><span>SELECTED MOTOR</span>
+            <h3>MAD 5008 EEE</h3><p>340 KV · 127 g each</p></article>
+            <article class="spec"><span>PROPELLER</span><h3>18 × 6.1″</h3><p>FLUXER PRO · 4 rotors</p></article>
+            <article class="spec"><span>BATTERY</span><h3>6S / 16 Ah</h3><p>MAD lithium-ion · 355.2 Wh</p></article>
+            <article class="spec"><span>HOVER THRUST</span><h3>1,250 gf</h3><p>Per motor at 5 kg MTOW</p></article></div>
+            <div class="two-col"><article class="panel">
+                <div class="panel-top"><h3>Motor comparison</h3><span class="chip">MANUFACTURER DATA</span></div>
+                <div class="bars">
+                    <div><label>MAD 5008 EEE <b>124.9 W</b></label>
+                        <div class="bar-track"><div class="bar cyan" style="width:89.9%"></div></div></div>
+                        <div><label>T-Motor MN501-S <b>139.0 W</b></label>
+                            <div class="bar-track">
+                                <div class="bar muted" style="width:100%"></div></div></div></div>
+                                <p class="note">Estimated electrical input power per motor at 1,250 gf. Manufacturer test setups differ.</p></article>
+                    <article class="panel"><h3>Battery mass trade-off</h3><p class="small">Explore the competition rule: battery mass adds an equal dummy payload mass. This calculator illustrates the mass budget, not a validated endurance prediction.</p>
+                        <label class="slider-label" for="battery">Battery mass <strong id="battery-val">1.24 kg</strong></label>
+                        <input type="range" id="battery" min="0.6" max="1.8" step="0.02" value="1.24">
+                        <div class="readouts"><div><span>BATTERY + DUMMY</span><strong id="paired">2.48 kg</strong></div>
+                        <div><span>REMAINING MASS AT 5 KG</span><strong id="remaining">2.52 kg</strong></div></div>
+                        <p class="note">Remaining mass is for all other components; selected 1.24 kg battery is from the draft.</p></article></div></section>
+<section class="section" id="communications"><div class="section-heading"><p class="eyebrow">03 / COMMUNICATIONS</p><h2>STAY <span class="accent">CONNECTED.</span></h2><p>Three independently designed links support flight control, FPV video and rover telemetry. Switch between them to inspect the architecture and theoretical free-space link margin.</p></div><div class="tabs" role="tablist"><button class="tab active" data-link="rc">RC Control · 2.4 GHz</button><button class="tab" data-link="fpv">FPV Video · 5.8 GHz</button><button class="tab" data-link="relay">Rover Relay · 2.4 GHz</button></div><div class="two-col comms"><article class="panel"><p class="eyebrow" id="link-type">RADIO CONTROL</p><h3 id="link-name">TX16S MK3 → DBR4</h3><p id="link-description">ExpressLRS radio control between pilot and drone receiver.</p><div class="readouts stacked"><div><span>FREQUENCY</span><strong id="frequency">2,400 MHz</strong></div><div><span>TX POWER</span><strong id="txpower">30 dBm</strong></div><div><span>RECEIVER SENSITIVITY*</span><strong id="sensitivity">−105 dBm</strong></div></div><p class="note">*Receiver sensitivity and some other inputs are preliminary assumptions from the draft, not verified equipment specifications.</p></article><article class="panel"><div class="panel-top"><h3>Interactive link budget</h3><span class="chip">IDEAL LOS MODEL</span></div><label class="slider-label" for="distance">Range <strong id="distance-val">1.20 km</strong></label><input type="range" id="distance" min="0.1" max="5" step="0.05" value="1.2"><div class="big-number"><span>ESTIMATED LINK MARGIN</span><strong id="margin">—</strong><span id="margin-status" class="status">Calculating</span></div><svg id="link-chart" viewBox="0 0 520 190" role="img" aria-label="Theoretical link margin versus range"><line x1="45" y1="18" x2="45" y2="160" stroke="#425366"/><line x1="45" y1="160" x2="510" y2="160" stroke="#425366"/><line id="threshold" x1="45" y1="0" x2="510" y2="0" stroke="#f8bd69" stroke-dasharray="6 5"/><path id="curve" fill="none" stroke="#53d7dc" stroke-width="3"/><line id="marker" x1="0" y1="18" x2="0" y2="160" stroke="#fff" stroke-dasharray="3 4"/><text x="47" y="181" fill="#8fa1b7" font-size="12">0.1 km</text><text x="460" y="181" fill="#8fa1b7" font-size="12">5 km</text><text id="threshold-label" x="350" y="25" fill="#f8bd69" font-size="11">20 dB threshold</text></svg><p class="note">Free-space model: FSPL = 32.44 + 20 log₁₀(f MHz) + 20 log₁₀(d km). Excludes terrain, fading and interference; no field range is guaranteed.</p></article></div><div class="panel diagram"><h3>Signal architecture</h3><div class="nodes"><div class="node">BASE STATION<small>TX16S · Goggles X · Rocket M2</small></div><div class="wire"><span>2.4 / 5.8 GHz</span><i></i></div><div class="node highlight">AIRBORNE DRONE<small>DBR4 · GT2 · GL-AR300M-Ext</small></div><div class="wire"><span>2.4 GHz relay</span><i></i></div><div class="node">GROUND ROVER<small>Rover radio / telemetry</small></div></div><p class="note">Conceptual signal flow. The RC/FPV links terminate at the drone; rover telemetry is a separate relay path.</p></div></section>
+<section class="section dark-section" id="architecture"><div class="section-heading"><p class="eyebrow">04 / SYSTEM ARCHITECTURE</p><h2>INSIDE THE <span class="accent">AIRFRAME.</span></h2><p>Core subsystems and their interfaces, based on the interim wiring architecture.</p></div><div class="arch-grid"><article class="arch-card"><span class="arch-num">01</span><h3>Power distribution</h3><p>6S battery → PM08-CAN → ESC and regulated 5.3 V / 12 V electronics supplies.</p><div class="tags"><span>PM08-CAN</span><span>Matek BEC</span></div></article><article class="arch-card"><span class="arch-num">02</span><h3>Flight control</h3><p>Pixhawk 6X runs ArduPilot, processes pilot commands and sensors, and issues motor control signals.</p><div class="tags"><span>Pixhawk 6X</span><span>ArduPilot</span></div></article><article class="arch-card"><span class="arch-num">03</span><h3>Propulsion</h3><p>Tekko32 4-in-1 ESC controls four independent motor channels via DShot300 commands.</p><div class="tags"><span>Tekko32</span><span>DShot300</span></div></article><article class="arch-card"><span class="arch-num">04</span><h3>Video & gimbal</h3><p>Walksnail GT2 transmits camera video and interfaces with Pixhawk OSD and GM3 gimbal control.</p><div class="tags"><span>GT2</span><span>GM3</span></div></article></div><div class="panel"><h3>Key engineering challenges</h3><div class="challenge-grid"><div><span>01 / CABLE LOSSES</span><h4>Operating from an enclosed base station</h4><p>A proposed 20 m LMR400 antenna extension introduces estimated RF losses of 4.36 dB at 2.4 GHz or 2.56 dB at 900 MHz, before connector effects.</p></div><div><span>02 / DATASHEET UNCERTAINTY</span><h4>Designing before physical validation</h4><p>Motor performance, battery mass and electronics efficiency are initially based on manufacturer data; conservative margins and staged testing reduce uncertainty.</p></div></div></div></section>
+<section class="section" id="testing"><div class="section-heading"><p class="eyebrow">05 / VALIDATION</p><h2>TEST. LEARN. <span class="accent">ITERATE.</span></h2><p>Clearly distinguish completed preliminary checks from work still awaiting experimental verification.</p></div><div class="test-grid"><article class="test-card"><span class="pill done">● INITIAL CONNECTIVITY VERIFIED</span><h3>2.4 GHz repeater module</h3><p>GL-AR300M-Ext and Rocket M2 were connected in router and extender configurations after IP reconfiguration.</p><div class="test-data"><strong>4 / 4</strong><span>ping packets transmitted<br>2–30 ms observed response</span></div><p class="note">Short-range connectivity only. Long-range, throughput and end-to-end relay tests remain outstanding.</p></article><article class="test-card"><span class="pill pending">○ VALIDATION PENDING</span><h3>Motor thrust verification</h3><p>Bench testing will compare thrust and electrical input power against manufacturer data at representative operating points.</p></article><article class="test-card"><span class="pill pending">○ VALIDATION PENDING</span><h3>Battery verification</h3><p>Verify measured battery mass, discharge behavior and usable capacity under representative loads.</p></article><article class="test-card"><span class="pill pending">○ DESIGN IN PROGRESS</span><h3>Mechanical integration</h3><p>Preliminary CAD layout is complete; final component mounting, propeller clearance, CG and structural testing remain.</p></article></div></section>
+<section class="section dark-section" id="roadmap"><div class="section-heading"><p class="eyebrow">06 / DEVELOPMENT ROADMAP</p><h2>FROM DESIGN <span class="accent">TO FLIGHT.</span></h2><p>Six project phases from the interim report. Select a milestone to explore its scope.</p></div><div class="roadmap" id="roadmap-items"></div><div class="panel milestone-detail"><p class="eyebrow" id="phase-label">PHASE 01</p><h3 id="phase-title">Design</h3><p id="phase-description">Defining system requirements, hardware, mass and power budgets and initial CAD models.</p></div><div class="panel risks"><h3>Operational risk controls</h3><div class="risk-list"><div><b>Connection loss</b><span>Failsafe scripts and backup 900 MHz link — proposed mitigation</span></div><div><b>Premature flight crash</b><span>No-prop motor tests → tethered hover → free flight</span></div><div><b>Thermal overheating</b><span>Cooling, RPM filtering and telemetry temperature monitoring</span></div></div></div></section>
+<section class="section outro"><p class="eyebrow">WHAT COMES NEXT</p><h2>THE NEXT MILESTONE<br>IS <span class="accent">REAL-WORLD FLIGHT.</span></h2><p>Semester 2 focuses on component validation, mechanical and electrical integration, flight testing, computer vision benchmarking and mission readiness.</p><a class="btn primary" href="assets/interim-report.pdf" target="_blank">View source report ↗</a><p class="note">This site is an editable interim project showcase. Technical estimates are preliminary and should be updated after experimental validation.</p></section></main><footer><span>ASI—402 / NUS MARS ROVER TEAM</span><span>UNIVERSITY ROVER CHALLENGE 2027</span><a href="#home">BACK TO TOP ↑</a></footer><script src="script.js"></script></body></html>
