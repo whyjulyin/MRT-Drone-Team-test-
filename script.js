@@ -1,4 +1,40 @@
-// EDITABLE DATA: Change technical values here when your team validates them.
-const links={rc:{type:'RADIO CONTROL',name:'TX16S MK3 → DBR4',description:'ExpressLRS radio control between pilot and drone receiver.',frequency:2400,tx:30,txGain:2,rxGain:2,loss:4.4,sensitivity:-105},fpv:{type:'FIRST PERSON VIEW VIDEO',name:'Walksnail GT2 → Goggles X',description:'5.8 GHz live reconnaissance video. This scenario uses the proposed 8 dBi transmit antenna.',frequency:5800,tx:33,txGain:8,rxGain:2,loss:2,sensitivity:-90},relay:{type:'ROVER TELEMETRY RELAY',name:'Rocket M2 → GL-AR300M-Ext',description:'Preliminary one-hop 2.4 GHz rover relay budget; end-to-end relay performance remains unverified.',frequency:2400,tx:20,txGain:12,rxGain:5,loss:2,sensitivity:-90}};
-const phases=[{title:'Design',description:'Define requirements, communications hardware, mass and power budgets, and initial CAD models.',when:'SEMESTER 1'},{title:'Subsystem Testing',description:'Test proposed repeater hardware, review component specifications, and estimate performance.',when:'SEMESTER 1'},{title:'Component Testing',description:'Complete detailed CAD and FEA; validate motor, battery and electronics performance.',when:'WINTER + SEMESTER 2'},{title:'Integration',description:'Complete electrical and mechanical assembly, flight-controller setup and communications integration.',when:'SEMESTER 2'},{title:'Flight Testing',description:'Perform staged flight trials, PID tuning, hover endurance tests, RF range tests and mission planning.',when:'SEMESTER 2'},{title:'CV Integration',description:'Benchmark candidate computer-vision models and conduct integrated mission testing.',when:'SEMESTER 2'}];
-const $=id=>document.getElementById(id);let active='rc';function linkMargin(l,d){return l.tx+l.txGain+l.rxGain-l.loss-(32.44+20*Math.log10(l.frequency)+20*Math.log10(d))-l.sensitivity}function drawLink(){const l=links[active],d=Number($('distance').value),m=linkMargin(l,d);$('distance-val').textContent=d.toFixed(2)+' km';$('margin').textContent=m.toFixed(1)+' dB';$('margin-status').textContent=m>=20?'Above 20 dB design threshold':'Below 20 dB design threshold';$('margin-status').style.color=m>=20?'#60e0df':'#ffbb78';const X=v=>45+(v-.1)/4.9*465,Y=v=>160-(v+20)/100*142;let path='';for(let x=.1;x<=5.001;x+=.05){path+=(path?' L':'M')+X(x).toFixed(1)+' '+Y(linkMargin(l,x)).toFixed(1)}$('curve').setAttribute('d',path);$('threshold').setAttribute('y1',Y(20));$('threshold').setAttribute('y2',Y(20));$('threshold-label').setAttribute('y',Y(20)-7);$('marker').setAttribute('x1',X(d));$('marker').setAttribute('x2',X(d))}document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');active=b.dataset.link;const l=links[active];$('link-type').textContent=l.type;$('link-name').textContent=l.name;$('link-description').textContent=l.description;$('frequency').textContent=l.frequency.toLocaleString()+' MHz';$('txpower').textContent=l.tx+' dBm';$('sensitivity').textContent=l.sensitivity+' dBm';drawLink()}));$('distance').addEventListener('input',drawLink);drawLink();function updateBattery(){let v=Number($('battery').value);$('battery-val').textContent=v.toFixed(2)+' kg';$('paired').textContent=(2*v).toFixed(2)+' kg';$('remaining').textContent=(5-2*v).toFixed(2)+' kg'}$('battery').addEventListener('input',updateBattery);updateBattery();const wrap=$('roadmap-items');phases.forEach((p,i)=>{const b=document.createElement('button');b.className='phase'+(i===0?' active':'');b.innerHTML='<span>0'+(i+1)+' / '+p.when+'</span><strong>'+p.title+'</strong>';b.addEventListener('click',()=>{document.querySelectorAll('.phase').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('phase-label').textContent='PHASE 0'+(i+1)+' · '+p.when;$('phase-title').textContent=p.title;$('phase-description').textContent=p.description});wrap.appendChild(b)});$('menu').addEventListener('click',()=>$('nav').classList.toggle('open'));document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',()=>$('nav').classList.remove('open')));
+
+// Accessible original-page toggles; no dependencies required.
+document.querySelectorAll('.page-toggle').forEach(button => {
+  button.addEventListener('click', () => {
+    const panel = document.getElementById(button.getAttribute('aria-controls'));
+    const isOpening = panel.hidden;
+    panel.hidden = !isOpening;
+    button.setAttribute('aria-expanded', String(isOpening));
+    button.textContent = isOpening ? 'Hide original page ↑' : 'View original page ↗';
+  });
+});
+
+// Filter the table of contents without modifying report content.
+const tocSearch = document.getElementById('toc-search');
+tocSearch.addEventListener('input', () => {
+  const query = tocSearch.value.trim().toLowerCase();
+  document.querySelectorAll('#toc a').forEach(link => {
+    link.hidden = !link.textContent.toLowerCase().includes(query);
+  });
+});
+
+// Reading accessibility controls.
+let fontScale = 1;
+function adjustFont(delta) {
+  fontScale = Math.max(0.85, Math.min(1.3, fontScale + delta));
+  document.documentElement.style.setProperty('--font-scale', fontScale.toFixed(2));
+}
+document.getElementById('font-up').addEventListener('click', () => adjustFont(0.05));
+document.getElementById('font-down').addEventListener('click', () => adjustFont(-0.05));
+
+// Highlight the current chapter in the sidebar.
+const chapters = [...document.querySelectorAll('.chapter')];
+const links = [...document.querySelectorAll('#toc > a')];
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    links.forEach(link => link.classList.toggle('active', link.hash === '#' + entry.target.id));
+  });
+}, { rootMargin: '-100px 0px -65% 0px' });
+chapters.forEach(chapter => observer.observe(chapter));
