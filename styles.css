@@ -425,10 +425,10 @@ button,input{
   display:block
 }
 .team-grid b{
-  font-size:14px
+  font-size:18px
 }
 .team-grid span{
-  font-size:12px;
+  font-size:14px;
   color:var(--muted)
 }
 .spec-grid{

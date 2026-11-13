@@ -32,10 +32,12 @@
 </header>
 <main>
     <section class="hero" id="home">
-        <div class="hero-copy"><p class="eyebrow"><span class="pulse"></span>NUS MARS ROVER TEAM<span class="slash">/</span>CDE4301 CAPSTONE</p>
+        <div class="hero-copy"><p class="eyebrow"><span class="pulse"></span>NUS MARS ROVER TEAM<span class="slash">/</span>CDE4301 Innovation & Design Captstone</p>
             <h1>MARS ROVER<br/><em>DRONE</em>TEAM<br/></h1>
      <p class="lead">
       Design of a custom quadcopter for aerial reconnaissance and non-line-of-sight communications relay in the University Rover Challenge 2027.
+
+      Julian Cheah Ming Feng | Joel Jesukumar William | Benedict Lim Wei Chen | Looi Zi Hann
      </p>
      <div class="actions">
       <a class="btn primary" href="#overview">Project Details ↗</a>
@@ -63,23 +65,29 @@
     <div><span>RELAY COVERAGE</span><strong>1.0 <small>km</small></strong><i>Operational radius target</i></div>
 </section>
 <section class="section" id="overview">
-    <div class="section-heading"><p class="eyebrow">01 / MISSION BRIEF</p>
-        <h2>WHY BUILD <span class="accent">THIS DRONE?</span></h2>
-        <p>The rover can encounter terrain obstructions and disrupted line-of-sight communications. Our quadcopter is designed to act as an elevated relay and aerial observer.</p></div>
+    <div class="section-heading"><p class="eyebrow">01 OVERVIEW / </p>
+        <h2>INTRODUCTION </h2>
+        <p>The University Rover Challenge (URC) is a robotics competition for university students, organized annually by the Mars Society near the Mars Desert Research Station (MDRS) in the desert of southern Utah, United States. The competition tasks student teams with designing and building next-generation Mars exploration rovers capable of executing field missions that simulate real planetary surface operations.
+
+            Field performance is evaluated across 4 distinct missions: Delivery, Autonomy, Equipment Servicing, and Astrobiology. Each mission is worth 100 points for a maximum achievable score of 400 mission points, though the drone can only be utilized for the Delivery and Autonomy missions. The Delivery Mission requires rovers to retrieve and deliver objects weighing up to 5 kg across challenging terrain over distances up to 1 km. The Autonomy Mission demands full autonomous navigation through waypoints as well as astronaut assistance and tool retrieval tasks without any human teleoperation. Overall team standings combine field mission points with engineering evaluations from the System Acceptance Review (SAR), which is submitted prior to the field competition.</p></div>
+        
+        <h2>Project Overview & Problem Statement</h2>
+        <p>For this competition, our rover is expected to traverse undulating terrain at an estimated distance of up to 2 km. This introduces the risk of communication loss between the rover and our base station due to signal attenuation over long ranges and obstructed line-of-sight due to natural obstacles. As such, the aerial drone subsystem is deployed specifically during the Delivery Mission and Autonomy Mission to support ground operations. Serving as a Non-Line-of-Sight (NVLOS) RF relay operating at an elevated hover altitude of 60 m AGL, the drone acts as an airborne repeater bridging primary telemetry and video links between the Command and Control base station and the ground rover when line-of-sight is severed by canyon walls and terrain ridges. Additionally, the drone provides aerial reconnaissance by scouting ahead of the ground rover to identify optimal driving paths, locate scattered mission equipment, and detect elevated ArUco markers beyond the field of view of ground-level cameras.</p>
+            
+        
         <div class="two-col"><article class="panel"><h3>Mission objectives</h3>
             <div class="feature"><b>01</b>
                 <div><h4>Airborne RF relay</h4><p>Bridge the base station and rover across terrain obstructions while hovering at a proposed 60 m AGL.</p></div></div>
                 <div class="feature"><b>02</b>
                     <div><h4>Aerial reconnaissance</h4><p>Scout driving routes, locate mission equipment and support elevated ArUco marker identification.</p></div></div>
-                    <div class="feature"><b>03</b>
-                        <div><h4>Endurance under constraints</h4><p>Balance flight time with the 5 kg mass cap and a mandatory dummy payload equal to battery mass.</p></div></div></article>
-                        <article class="panel constraints"><h3>Design constraints</h3>
+                    </article>
+                    <article class="panel constraints"><h3>Design constraints</h3>
                             <div class="constraint"><span>Dummy mass</span><b>1:1 battery mass</b></div>
                             <div class="constraint"><span>Maximum altitude</span><b>120 m AGL</b></div>
                             <div class="constraint"><span>Maximum mass</span><b>5.0 kg</b></div>
                             <div class="constraint"><span>Recommended wind tolerance</span><b>48 km/h</b></div>
                             <div class="constraint"><span>Minimum top speed target</span><b>36 km/h</b></div>
-                            <p class="note">Values reflect the interim draft and should be checked against the latest official competition rules.</p></article></div>
+                            </article></div>
                             
 
 
@@ -92,9 +100,7 @@
     <p class="org-eyebrow">TEAM STRUCTURE</p>
     <h2>NUS Mars Rover Team</h2>
     <p>
-      Eight specialised subsystems working together
-      to design, develop and operate a Mars exploration
-      rover for the University Rover Challenge 2027.
+      The NUS Mars Rover Team consists of 8 subsystems, each responsible for a different aspect of the rover and operation. 
     </p>
   </div>
   <!-- Main Team -->
@@ -114,7 +120,6 @@
   <!-- Subsystem Cards -->
   <div class="org-grid">
     <div class="org-card">
-      <div class="org-card-icon">⚡</div>
       <h3>Chassis Electrical</h3>
       <p>
         In charge of all electrical systems
@@ -122,7 +127,6 @@
       </p>
     </div>
     <div class="org-card">
-      <div class="org-card-icon">⚙️</div>
       <h3>Chassis Mechanical</h3>
       <p>
         Handles mechanical chassis design
@@ -131,7 +135,6 @@
       </p>
     </div>
     <div class="org-card">
-      <div class="org-card-icon">🧭</div>
       <h3>Auto-Navigation</h3>
       <p>
         Develops autonomous navigation
@@ -140,7 +143,6 @@
       </p>
     </div>
     <div class="org-card">
-      <div class="org-card-icon">🦾</div>
       <h3>Arm</h3>
       <p>
         Designs the main manipulator
@@ -148,7 +150,6 @@
       </p>
     </div>
     <div class="org-card">
-      <div class="org-card-icon">🔬</div>
       <h3>Astrobiology</h3>
       <p>
         Designs the soil sampling mechanism
@@ -157,7 +158,6 @@
       </p>
     </div>
     <div class="org-card">
-      <div class="org-card-icon">📡</div>
       <h3>GNSS-Comms</h3>
       <p>
         Manages communication systems,
@@ -167,7 +167,6 @@
       </p>
     </div>
     <div class="org-card">
-      <div class="org-card-icon">🖥️</div>
       <h3>Command & Control (C2)</h3>
       <p>
         Manages base station logistics
@@ -179,7 +178,6 @@
       <div class="org-drone-badge">
         OUR SUBSYSTEM
       </div>
-      <div class="org-card-icon">🚁</div>
       <h3>Drone Team</h3>
       <p>
         Designs and develops a custom
@@ -187,16 +185,14 @@
         missions through aerial reconnaissance
         and communication relay.
       </p>
-      <a href="#propulsion" class="org-drone-link">
-        Explore Drone Design →
-      </a>
     </div>
   </div>
   <div class="team"><p class="eyebrow">PROJECT TEAM</p>
-                                <div class="team-grid"><div><b>Julian Cheah</b><span>Team Lead · Communications</span></div>
-                                <div><b>Joel Jesukumar William</b><span>Electrical · Power Distribution</span></div>
-                                <div><b>Benedict Lim</b><span>Propulsion · Endurance</span></div>
-                                <div><b>Looi Zi Hann</b><span>Mechanical · Frame</span></div></div></div></section>
+                                <div class="team-grid">
+                                <div><b>Julian Cheah Ming Feng</b><span>Team Lead · Communications</span><p>Robotics Specialisation</p></div>
+                                <div><b>Joel Jesukumar William</b><span>Electrical · Power Distribution</span><p>Robotics Specialisation</p></div>
+                                <div><b>Benedict Lim Wei Chen</b><span>Propulsion · Endurance</span><p>Aeronautical Specialisation</p></div>
+                                <div><b>Looi Zi Hann</b><span>Mechanical · Frame</span><p>Aeronautical Specialisation</p></div></div></div></section>
 </section>
 
 <section class="section dark-section" id="propulsion">
